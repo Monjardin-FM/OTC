@@ -1,0 +1,29 @@
+@layer components {
+  .badge {
+    @apply inline-block px-2 py-1 text-sm font-semibold rounded-full;
+  }
+
+  .badge-gray {
+    @apply bg-gray-100 text-gray-700;
+  }
+
+  .badge-primary {
+    @apply bg-primary-100 text-primary-700;
+  }
+
+  .badge-success {
+    @apply bg-success-100 text-success-700;
+  }
+
+  .badge-info {
+    @apply bg-info-100 text-info-700;
+  }
+
+  .badge-warn {
+    @apply bg-warn-100 text-warn-800;
+  }
+
+  .badge-danger {
+    @apply bg-danger-100 text-danger-700;
+  }
+}

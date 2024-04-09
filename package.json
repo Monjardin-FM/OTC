@@ -1,0 +1,132 @@
+{
+  "name": "shiba-app",
+  "version": "1.8.0",
+  "private": true,
+  "dependencies": {
+    "@craco/craco": "^6.1.2",
+    "@headlessui/react": "^1.4.1",
+    "@lottiefiles/react-lottie-player": "^3.3.1",
+    "@nextui-org/react": "^1.0.0-beta.12",
+    "@reduxjs/toolkit": "^1.5.1",
+    "@tailwindcss/forms": "^0.3.3",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^12.0.0",
+    "@types/numeral": "^2.0.1",
+    "@types/react": "^17.0.0",
+    "@types/react-datepicker": "^3.1.8",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.1.7",
+    "await-to-js": "^3.0.0",
+    "axios": "^0.21.1",
+    "change-case": "^4.1.2",
+    "classnames": "^2.3.1",
+    "cleave.js": "^1.6.0",
+    "clsx": "^1.1.1",
+    "date-fns": "^2.22.1",
+    "dayjs": "^1.10.5",
+    "env-cmd": "^10.1.0",
+    "formik": "^2.2.9",
+    "framer-motion": "^4.1.17",
+    "husky": "^6.0.0",
+    "ky": "^0.28.5",
+    "lodash.throttle": "^4.1.1",
+    "moment": "^2.29.1",
+    "numeral": "^2.0.6",
+    "postcss-import": "^14.0.2",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.2",
+    "react-datepicker": "^4.1.1",
+    "react-doc-viewer": "^0.1.5",
+    "react-dom": "^17.0.2",
+    "react-drag-drop-files": "^2.2.2",
+    "react-draggable": "^4.4.6",
+    "react-dropzone": "^12.0.4",
+    "react-feather": "^2.0.9",
+    "react-hook-form": "^5.7.2",
+    "react-loader-spinner": "^4.0.0",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "react-toastify": "^8.1.0",
+    "react-use": "^17.2.4",
+    "redux": "^4.1.0",
+    "redux-devtools-extension": "^2.13.9",
+    "sweetalert2": "^11.0.16",
+    "sweetalert2-react-content": "^4.0.1",
+    "typescript": "^4.1.2",
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.9"
+  },
+  "scripts": {
+    "start": "craco start",
+    "start:production": "env-cmd -f .env.production.local craco start",
+    "build": "craco build",
+    "build:development": "env-cmd -f .env.development.local craco build",
+    "test": "craco test",
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 6006 -s public",
+    "build-storybook": "build-storybook -s public",
+    "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
+    "format": "prettier --write \"src/**/*.{ts,tsx,js,jsx}\"",
+    "prepare": "husky install",
+    "release": "standard-version"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.4",
+    "@commitlint/config-conventional": "^12.1.4",
+    "@storybook/addon-actions": "^6.2.9",
+    "@storybook/addon-essentials": "^6.2.9",
+    "@storybook/addon-links": "^6.2.9",
+    "@storybook/node-logger": "^6.2.9",
+    "@storybook/preset-create-react-app": "^3.1.7",
+    "@storybook/react": "^6.2.9",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
+    "autoprefixer": "^9",
+    "babel-loader": "8.1.0",
+    "eslint": "^7.27.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-react": "^7.23.2",
+    "lint-staged": "^11.0.0",
+    "postcss": "^7",
+    "prettier": "^2.3.2",
+    "standard-version": "^9.3.0",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat"
+  }
+}

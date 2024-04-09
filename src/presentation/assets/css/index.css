@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@import 'tailwindcss/base';
+
+@import 'tailwindcss/components';
+
+@import './components/button.css';
+@import './components/badge.css';
+@import './components/togglebutton.css';
+
+@import 'tailwindcss/utilities';
+.sweet-alert-toast-height {
+  height: auto !important;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  border-radius: 18px;
+  background-color: #eef1f7;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c8d0df;
+  border-radius: 11px;
+}
+
+::-webkit-scrollbar-track {
+  margin: 2px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.text-br {
+  word-wrap: break-word;
+}

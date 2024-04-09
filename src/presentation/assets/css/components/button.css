@@ -1,0 +1,69 @@
+@layer components {
+  .btn {
+    @apply appearance-none focus:outline-none font-medium transition duration-500 shadow;
+  }
+
+  .btn:hover {
+    @apply shadow-lg;
+  }
+
+  .btn-text {
+    @apply rounded-lg;
+  }
+
+  .btn-icon {
+    @apply rounded-full;
+  }
+
+  .btn-sm {
+    @apply text-sm px-2 py-1;
+  }
+
+  .btn-base {
+    @apply text-base px-3 py-2;
+  }
+
+  .btn-lg {
+    @apply text-base px-4 py-3;
+  }
+
+  .btn-icon-base {
+    @apply p-2;
+  }
+
+  .btn-complex {
+    @apply flex items-center justify-start space-x-2;
+  }
+
+  .btn-primary-solid {
+    @apply text-primary-100 bg-primary-600;
+  }
+
+  .btn-primary-solid:hover {
+    @apply bg-primary-700;
+  }
+
+  .btn-primary-ghost {
+    @apply text-primary-600 bg-transparent;
+  }
+
+  .btn-primary-ghost:hover {
+    @apply bg-primary-100;
+  }
+
+  .btn-gray-solid {
+    @apply text-gray-600 bg-gray-100;
+  }
+
+  .btn-gray-solid:hover {
+    @apply bg-gray-200;
+  }
+
+  .btn-gray-ghost {
+    @apply text-gray-600 bg-transparent;
+  }
+
+  .btn-gray-ghost:hover {
+    @apply bg-gray-100;
+  }
+}
