@@ -1,23 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AppAuthorizationGuard } from 'presentation/components/AppAuthorizationGuard';
 import AppConfig from 'settings.json';
 import { UserRole } from 'modules/user/domain/entities/user-role';
 import { AppPageTransition } from 'presentation/components/AppPageTransition';
-import { AppManagemenetUsersHeader } from './app-management-users-header';
-import { AppManagementUsersTable } from './tables/app-management-users-table';
-// import { AppButton } from 'presentation/components/AppButton';
-import * as Icon from 'react-feather';
+import { AppDefendantsHeader } from './app-defendants-header';
 import { AppButton } from 'presentation/components/AppButton';
+import * as Icon from 'react-feather';
 import { AppTooltip } from 'presentation/components/AppTooltip';
 import { useToggle } from 'react-use';
-import { AppNewUserModal } from './modals/app-new-user-modal';
-import { useGetUsers } from '../hooks/use-get-users';
-export const ManagementUsersManagerPage = () => {
-  const [visibleNewUserModal, setVisibleNewUserModal] = useToggle(false);
-  const { users, getUsers } = useGetUsers();
-  useEffect(() => {
-    getUsers({ completeName: '' });
-  }, []);
+import { AppDefendantsTable } from './tables/app-defendants-table';
+import { AppNewDefendantModal } from './modals/app-new-defendant-modal';
+export const AppDefendantsManagerPage = () => {
+  const [visibleNewDefendantModal, setVisibleNewDefendantModal] =
+    useToggle(false);
   return (
     <AppAuthorizationGuard
       roles={
@@ -25,27 +20,27 @@ export const ManagementUsersManagerPage = () => {
       }
       redirect={{ to: '/' }}
     >
-      <AppNewUserModal
-        isVisible={visibleNewUserModal}
-        onClose={() => setVisibleNewUserModal(false)}
+      <AppNewDefendantModal
+        isVisible={visibleNewDefendantModal}
+        onClose={() => setVisibleNewDefendantModal(false)}
       />
       <AppPageTransition>
         <div className="items-center mx-auto mb-5">
-          <AppManagemenetUsersHeader />
+          <AppDefendantsHeader />
         </div>
         <div className="container mx-auto flex flex-col items-end jusitfy-center">
           <div className="group relative inline-block text-center">
             <AppButton
               colorScheme="warn"
-              onClick={() => setVisibleNewUserModal(true)}
+              onClick={() => setVisibleNewDefendantModal(true)}
             >
               <Icon.PlusCircle />
             </AppButton>
-            <AppTooltip>New User</AppTooltip>
+            <AppTooltip>New Defendant</AppTooltip>
           </div>
         </div>
         <div className="container mx-auto mt-5">
-          <AppManagementUsersTable onEdit={() => {}} items={users} />
+          <AppDefendantsTable onEdit={() => {}} />
         </div>
       </AppPageTransition>
     </AppAuthorizationGuard>

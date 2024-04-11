@@ -1,0 +1,179 @@
+import React from 'react';
+import { Defendant } from 'modules/defendants/domain/entities/defendant';
+import { AppAvatar } from 'presentation/components/AppAvatar';
+import { AppBadge } from 'presentation/components/AppBadge';
+import { AppButton } from 'presentation/components/AppButton';
+import {
+  AppDataGrid,
+  AppDataGridColumn,
+  RenderFnParams,
+} from 'presentation/components/AppDataGrid';
+import { AppTooltip } from 'presentation/components/AppTooltip';
+import { UIColorScheme } from 'presentation/types/ui-color-schema';
+import * as Icon from 'react-feather';
+export type DefendantsTableProps = {
+  // onToggleStatus?: (index: Client) => void;
+  // onUpdateClient: (data: Client) => void;
+  items?: Defendant[];
+  onEdit: (params: RenderFnParams<Defendant>) => void;
+  // onNotification: (params: RenderFnParams<UserManage>) => void;
+  // onUpdateAlmacen: (params: RenderFnParams<UserManage>) => void;
+};
+const getRandomColorSchema = (params: { length: number }) => {
+  const colors: UIColorScheme[] = [
+    'gray',
+    'primary',
+    'success',
+    'info',
+    'warn',
+    'danger',
+  ];
+  return colors[params.length % colors.length] || 'gray';
+};
+
+const NamDefendantColumn = (params: RenderFnParams<Defendant>) => {
+  return (
+    <div className="flex items-center space-x-3">
+      <div>
+        <AppAvatar
+          colorSchema={getRandomColorSchema({
+            length: params.record.name.length,
+          })}
+        >
+          <Icon.User size={20} />
+        </AppAvatar>
+      </div>
+      <div>
+        <div className="font-semibold tracking-wider">{params.record.name}</div>
+      </div>
+    </div>
+  );
+};
+
+const EmailDefendantColumn = (params: RenderFnParams<Defendant>) => {
+  return (
+    <AppBadge colorScheme="primary">
+      <div className="font-medium text-sm">{params.record.eMail}</div>
+    </AppBadge>
+  );
+};
+const SIDDefendantColumn = (params: RenderFnParams<Defendant>) => {
+  return (
+    <AppBadge>
+      <div className="font-semibold text-sm text-primary-600 tracking-wider">
+        {params.record.sid}
+      </div>
+    </AppBadge>
+  );
+};
+
+const CaseNumberDefendantColumn = (params: RenderFnParams<Defendant>) => {
+  return (
+    <AppBadge>
+      <div className="font-semibold text-sm text-primary-600 tracking-wider">
+        {params.record.caseNumber}
+      </div>
+    </AppBadge>
+  );
+};
+
+const StatusDefendantColumn = (params: RenderFnParams<Defendant>) => {
+  return (
+    <AppBadge>
+      <div className="font-semibold text-sm text-primary-600 tracking-wider">
+        {params.record.idStatus}
+      </div>
+    </AppBadge>
+  );
+};
+
+const ActionsColumn = ({
+  onEdit,
+  record,
+}: RenderFnParams<Defendant> & {
+  onEdit: () => void;
+}) => {
+  return (
+    <div className="flex flex-row items-center justify-start gap-8">
+      <div className="group relative inline-block text-center">
+        <AppButton
+          onClick={() => {
+            onEdit();
+          }}
+          title="Edit User"
+          size="sm"
+          variant="ghost"
+        >
+          <Icon.Eye size={18} />
+        </AppButton>
+        <AppTooltip>Edit Defendant</AppTooltip>
+      </div>
+      <div className="group relative inline-block text-center">
+        <AppButton
+          onClick={() => {
+            onEdit();
+          }}
+          title="Delete Defendant"
+          size="sm"
+          variant="ghost"
+        >
+          <Icon.Trash size={18} />
+        </AppButton>
+        <AppTooltip>Delete Defendant</AppTooltip>
+      </div>
+    </div>
+  );
+};
+
+export const AppDefendantsTable = ({
+  items = [],
+  onEdit,
+}: DefendantsTableProps) => {
+  const columns: AppDataGridColumn<Defendant>[] = [
+    {
+      key: 'defendantName',
+      dataIndex: 'defendantName',
+      title: 'Name',
+      render: NamDefendantColumn,
+    },
+    {
+      key: 'defendantEmail',
+      dataIndex: 'defendantEmail',
+      title: 'Email',
+      render: EmailDefendantColumn,
+    },
+    {
+      key: 'defendantSID',
+      dataIndex: 'defendantSID',
+      title: 'SID',
+      render: SIDDefendantColumn,
+    },
+    {
+      key: 'defendantCaseNumber',
+      dataIndex: 'defendantCaseNumber',
+      title: 'Case Number',
+      render: CaseNumberDefendantColumn,
+    },
+    {
+      key: 'defendantStatus',
+      dataIndex: 'defendantStatus',
+      title: 'Status',
+      render: StatusDefendantColumn,
+    },
+    {
+      key: 'actionsClient',
+      dataIndex: 'actionsClient',
+      title: 'Actions',
+      render: (data) =>
+        ActionsColumn({
+          ...data,
+          onEdit: () => {
+            onEdit(data);
+          },
+        }),
+    },
+  ];
+  return (
+    <AppDataGrid<Defendant> columns={columns} dataSource={items} itemKey="id" />
+  );
+};

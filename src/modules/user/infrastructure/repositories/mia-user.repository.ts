@@ -4,7 +4,7 @@ import {
   UserRepository,
   UserRepositorySignInDTO,
 } from 'modules/user/domain/repositories/user.repository';
-import { UserRole } from 'modules/user/domain/entities/user-role';
+// import { UserRole } from 'modules/user/domain/entities/user-role';
 
 export class MiaUserRepository implements UserRepository {
   async signIn({ email, password }: UserRepositorySignInDTO): Promise<User> {
@@ -33,25 +33,28 @@ export class MiaUserRepository implements UserRepository {
 
       const userData = data.data.userinfo;
 
-      const APPLICATION_DATA = {
-        id: 1,
-        name: 'MIA',
-      };
+      // const APPLICATION_DATA = {
+      //   id: 1,
+      //   name: 'MIA',
+      // };
 
-      const application = this.findApplication({
-        applications: userData.aplicacion,
-        id: APPLICATION_DATA.id,
-        name: APPLICATION_DATA.name,
-      });
+      // const application = this.findApplication({
+      //   applications: userData.aplicacion,
+      //   id: APPLICATION_DATA.id,
+      //   name: APPLICATION_DATA.name,
+      // });
 
       const user: User = {
-        id: userData.idPersona,
-        firstname: userData.nombre,
-        lastname: `${userData.apellidoPaterno} ${userData.apellidoMaterno}`,
-        gender: userData.idGenero === 0 ? 'male' : 'female',
-        roles: application
-          ? this.parseUserRoles({ roles: application.role })
-          : [],
+        idPerson: userData.idPersona,
+        eMail: userData.eMail,
+        name: userData.name,
+        // firstname: userData.nombre,
+        // lastname: `${userData.apellidoPaterno} ${userData.apellidoMaterno}`,
+        // gender: userData.idGenero === 0 ? 'male' : 'female',
+        roles: userData.roles,
+        // roles: application
+        //   ? this.parseUserRoles({ roles: application.role })
+        //   : [],
         metadata: {
           jwt: data.data.token,
         },
@@ -63,27 +66,27 @@ export class MiaUserRepository implements UserRepository {
     }
   }
 
-  private findApplication(params: {
-    id: number;
-    name: string;
-    applications: any[];
-  }): any {
-    const query = (item: any) =>
-      item.idAplicacion === params.id && item.descripcion === params.name;
+  // private findApplication(params: {
+  //   id: number;
+  //   name: string;
+  //   applications: any[];
+  // }): any {
+  //   const query = (item: any) =>
+  //     item.idAplicacion === params.id && item.descripcion === params.name;
 
-    const application = params.applications.find(query);
-    return application;
-  }
+  //   const application = params.applications.find(query);
+  //   return application;
+  // }
 
-  private parseUserRoles(params: { roles: any[] }): UserRole[] {
-    const ACTIVE_STATUS = 2;
-    const roles = params.roles.reduce<UserRole[]>((previous, current) => {
-      if (current.idStatus !== ACTIVE_STATUS) return previous;
-      else if (current.descripcion === 'admin') return [...previous, 'admin'];
+  // private parseUserRoles(params: { roles: any[] }): UserRole[] {
+  //   const ACTIVE_STATUS = 2;
+  //   const roles = params.roles.reduce<UserRole[]>((previous, current) => {
+  //     if (current.idStatus !== ACTIVE_STATUS) return previous;
+  //     else if (current.descripcion === 'admin') return [...previous, 'admin'];
 
-      return previous;
-    }, []);
+  //     return previous;
+  //   }, []);
 
-    return roles;
-  }
+  //   return roles;
+  // }
 }

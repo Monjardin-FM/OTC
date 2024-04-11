@@ -46,7 +46,7 @@ export const AppAsideV2 = ({
             <div className="w-full mt-8 text-center">
               <div className="text-sm text-primary-500">Welcome</div>
               <div className="font-bold text-primary-600">
-                {capitalize(`${user.firstname} ${user.lastname}`)}
+                {capitalize(`${user.name}`)}
               </div>
             </div>
           )}
@@ -67,9 +67,20 @@ export const AppAsideV2 = ({
               }
             >
               <AppAsideLink
-                icon={<Icon.Users size={20} />}
+                icon={<Icon.User size={20} />}
                 label="Users Management"
-                to="/userManagement"
+                to="/management-users"
+              />
+            </AppAuthorizationGuard>
+            <AppAuthorizationGuard
+              roles={
+                AppConfig['defendants.managerPage.authorization'] as UserRole[]
+              }
+            >
+              <AppAsideLink
+                icon={<Icon.Users size={20} />}
+                label="Defendants"
+                to="/defendants"
               />
             </AppAuthorizationGuard>
           </div>

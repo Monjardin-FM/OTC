@@ -4,8 +4,6 @@ import Blogging from 'presentation/assets/json/animations/blogging.json';
 import { AppPageTransition } from '../AppPageTransition';
 import OTCImage from 'presentation/assets/img/otcLogo-small.png';
 import '../../assets/css/components/background.css';
-import { Button } from '@nextui-org/react';
-
 export const AppHomePage = () => (
   <AppPageTransition>
     <div className="">
@@ -43,7 +41,6 @@ export const AppHomePage = () => (
                   alt="OTC Logo"
                 />
               </div>
-              <Button color={'primary'}>Click</Button>
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import { AppHomePage } from 'presentation/components/AppHomePage';
 import { AppLayout } from 'presentation/components/AppLayout';
 import { AppNotFoundPage } from 'presentation/components/AppNotFoundPage';
 import { ManagementUsersManagerPage } from 'modules/management-users/web/components/app-management-users-manager-page';
+import { AppDefendantsManagerPage } from 'modules/defendants/web/components/app-defendants-manager-page';
 
 export const routes: IRoute[] = [
   {
@@ -17,9 +18,14 @@ export const routes: IRoute[] = [
     component: AppLayout,
     routes: [
       {
-        key: 'clients-view',
-        path: '/clients',
+        key: 'management-users-view',
+        path: '/management-users',
         component: ManagementUsersManagerPage,
+      },
+      {
+        key: 'defendants-view',
+        path: '/defendants',
+        component: AppDefendantsManagerPage,
       },
 
       {
