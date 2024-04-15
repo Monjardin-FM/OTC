@@ -12,12 +12,9 @@ import { AppBadge } from 'presentation/components/AppBadge';
 import { AppButton } from 'presentation/components/AppButton';
 import { AppTooltip } from 'presentation/components/AppTooltip';
 export type ManagementUsersTableProps = {
-  // onToggleStatus?: (index: Client) => void;
-  // onUpdateClient: (data: Client) => void;
   items?: UserManage[];
   onEdit: (params: RenderFnParams<UserManage>) => void;
-  // onNotification: (params: RenderFnParams<UserManage>) => void;
-  // onUpdateAlmacen: (params: RenderFnParams<UserManage>) => void;
+  onDelete: (params: RenderFnParams<UserManage>) => void;
 };
 const getRandomColorSchema = (params: { length: number }) => {
   const colors: UIColorScheme[] = [
@@ -71,8 +68,10 @@ const EmailUserColumn = (params: RenderFnParams<UserManage>) => {
 const ActionsColumn = ({
   onEdit,
   record,
+  onDelete,
 }: RenderFnParams<UserManage> & {
   onEdit: () => void;
+  onDelete: () => void;
 }) => {
   return (
     <div className="flex flex-row items-center justify-start gap-8">
@@ -93,13 +92,14 @@ const ActionsColumn = ({
         <AppButton
           size="sm"
           variant="ghost"
+          colorScheme="danger"
           onClick={() => {
             onEdit();
           }}
         >
-          <Icon.Archive size={18} />
+          <Icon.XOctagon size={18} />
         </AppButton>
-        <AppTooltip>Edit User</AppTooltip>
+        <AppTooltip>Delete User</AppTooltip>
       </div>
     </div>
   );
@@ -108,6 +108,7 @@ const ActionsColumn = ({
 export const AppManagementUsersTable = ({
   items = [],
   onEdit,
+  onDelete,
 }: ManagementUsersTableProps) => {
   const columns: AppDataGridColumn<UserManage>[] = [
     {
@@ -137,6 +138,9 @@ export const AppManagementUsersTable = ({
           ...data,
           onEdit: () => {
             onEdit(data);
+          },
+          onDelete: () => {
+            onDelete(data);
           },
         }),
     },

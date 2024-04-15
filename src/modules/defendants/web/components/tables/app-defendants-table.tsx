@@ -61,7 +61,7 @@ const SIDDefendantColumn = (params: RenderFnParams<Defendant>) => {
   return (
     <AppBadge>
       <div className="font-semibold text-sm text-primary-600 tracking-wider">
-        {params.record.sid}
+        {params.record.idCounty}
       </div>
     </AppBadge>
   );
@@ -71,7 +71,7 @@ const CaseNumberDefendantColumn = (params: RenderFnParams<Defendant>) => {
   return (
     <AppBadge>
       <div className="font-semibold text-sm text-primary-600 tracking-wider">
-        {params.record.caseNumber}
+        {params.record.idCounty}
       </div>
     </AppBadge>
   );

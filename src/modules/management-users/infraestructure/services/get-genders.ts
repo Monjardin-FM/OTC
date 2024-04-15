@@ -8,7 +8,7 @@ export const getGendersService: UserManageRepository['getGender'] =
   async () => {
     const response = await api().get('Catalog/Gender', {
       headers: {
-        Authorization: `Bearer  ${token()}`,
+        Authorization: `Bearer ${token()}`,
       },
     });
     const { body } = await verifyResponse({ response });

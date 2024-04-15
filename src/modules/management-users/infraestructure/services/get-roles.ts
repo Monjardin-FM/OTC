@@ -7,7 +7,7 @@ import { token } from 'utils/token';
 export const getRolesService: UserManageRepository['getRole'] = async () => {
   const response = await api().get('Catalog/Role', {
     headers: {
-      Authorization: `Bearer  ${token()}`,
+      Authorization: `Bearer ${token()}`,
     },
   });
   const { body } = await verifyResponse({ response });

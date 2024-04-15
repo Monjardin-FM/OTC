@@ -1,0 +1,150 @@
+import React from 'react';
+import { Device } from 'modules/devices/domain/entities/device';
+import { AppAvatar } from 'presentation/components/AppAvatar';
+import { AppBadge } from 'presentation/components/AppBadge';
+import { AppButton } from 'presentation/components/AppButton';
+import {
+  AppDataGrid,
+  AppDataGridColumn,
+  RenderFnParams,
+} from 'presentation/components/AppDataGrid';
+import { AppTooltip } from 'presentation/components/AppTooltip';
+import { UIColorScheme } from 'presentation/types/ui-color-schema';
+import * as Icon from 'react-feather';
+export type DevicessTableProps = {
+  // onToggleStatus?: (index: Client) => void;
+  // onUpdateClient: (data: Client) => void;
+  items?: Device[];
+  onEdit: (params: RenderFnParams<Device>) => void;
+  // onNotification: (params: RenderFnParams<UserManage>) => void;
+  // onUpdateAlmacen: (params: RenderFnParams<UserManage>) => void;
+};
+const getRandomColorSchema = (params: { length: number }) => {
+  const colors: UIColorScheme[] = [
+    'gray',
+    'primary',
+    'success',
+    'info',
+    'warn',
+    'danger',
+  ];
+  return colors[params.length % colors.length] || 'gray';
+};
+
+const NameDevicesColumn = (params: RenderFnParams<Device>) => {
+  return (
+    <div className="flex items-center space-x-3">
+      <div>
+        <AppAvatar
+          colorSchema={getRandomColorSchema({
+            length: params.record.description.length,
+          })}
+        >
+          <Icon.User size={20} />
+        </AppAvatar>
+      </div>
+      <div>
+        <div className="font-semibold tracking-wider">
+          {params.record.description}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const StatusDevicesColumn = (params: RenderFnParams<Device>) => {
+  return (
+    <AppBadge colorScheme="primary">
+      <div className="font-medium text-sm">{params.record.idStatus}</div>
+    </AppBadge>
+  );
+};
+const NumberDevicesColumn = (params: RenderFnParams<Device>) => {
+  return (
+    <AppBadge>
+      <div className="font-semibold text-sm text-primary-600 tracking-wider">
+        {params.record.description}
+      </div>
+    </AppBadge>
+  );
+};
+
+const ActionsColumn = ({
+  onEdit,
+  record,
+}: RenderFnParams<Device> & {
+  onEdit: () => void;
+}) => {
+  return (
+    <div className="flex flex-row items-center justify-start gap-8">
+      <div className="group relative inline-block text-center">
+        <AppButton
+          onClick={() => {
+            onEdit();
+          }}
+          title="Edit Device"
+          size="sm"
+          variant="ghost"
+        >
+          <Icon.Eye size={18} />
+        </AppButton>
+        <AppTooltip>Edit Device</AppTooltip>
+      </div>
+      <div className="group relative inline-block text-center">
+        <AppButton
+          onClick={() => {
+            onEdit();
+          }}
+          title="Delete Device"
+          size="sm"
+          variant="ghost"
+        >
+          <Icon.Trash size={18} />
+        </AppButton>
+        <AppTooltip>Delete Device</AppTooltip>
+      </div>
+    </div>
+  );
+};
+
+export const AppDevicessTable = ({
+  items = [],
+  onEdit,
+}: DevicessTableProps) => {
+  const columns: AppDataGridColumn<Device>[] = [
+    {
+      key: 'DevicesName',
+      dataIndex: 'DevicesName',
+      title: 'Name',
+      render: NameDevicesColumn,
+    },
+    {
+      key: 'DevicesStatus',
+      dataIndex: 'DevicesStatus',
+      title: 'Status',
+      render: StatusDevicesColumn,
+    },
+    {
+      key: 'DevicesNumber',
+      dataIndex: 'DevicesNumber',
+      title: 'Number/EMAI',
+      render: NumberDevicesColumn,
+    },
+
+    {
+      key: 'actionsClient',
+      dataIndex: 'actionsClient',
+      title: 'Actions',
+      render: (data) =>
+        ActionsColumn({
+          ...data,
+          onEdit: () => {
+            onEdit(data);
+          },
+        }),
+    },
+  ];
+  return (
+    <AppDataGrid<Device> columns={columns} dataSource={items} itemKey="id" />
+  );
+};

@@ -9,30 +9,29 @@ export const getUsersService: UserManageRepository['getUsers'] = async (
 ) => {
   const response = await api().get('User', {
     headers: {
-      Authorization: `Bearer  ${token()}`,
+      Authorization: `Bearer ${token()}`,
       'Content-Type': 'application/json',
     },
-    json: {
-      completeName: params.completeName,
-    },
+    searchParams: params,
   });
+  console.log(response);
   const { body } = await verifyResponse({ response });
   const data = body.data as any[];
 
   const users = data.map<UserManage>((user) => ({
+    idDefendant: user.idDefendant,
+    idPerson: user.idPerson,
+    idOfficer: user.idOfficer,
     name: user.name,
     lastName: user.lastName,
-    birthDate: user.birthDate,
-    idPersonType: user.idPersonType,
-    eMail: user.eMail,
-    createdAt: user.created_at,
     idCounty: user.idCounty,
-    idDefendant: user.idDefendant,
+    eMail: user.eMail,
+    birthDate: user.birthDate,
     idGender: user.idGender,
-    idOfficer: user.idOfficer,
-    idPerson: user.idPerson,
-    idRole: user.idRole,
+    idPersonType: user.idPersonType,
     idStatus: user.idStatus,
+    createdAt: user.created_at,
+    idRole: user.idRole,
   }));
   return users;
 };

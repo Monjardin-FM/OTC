@@ -11,13 +11,11 @@ export const AppDefendantsHeader = () => {
         background: 'linear-gradient(to right, #133a94, #919bff)',
       }}
     >
-      <div className="container flex flex-col items-center mx-auto">
-        <div className=" flex flex-col max-w-3xl w-full items-center px-4 justify-center absolute top-14">
-          <h1 className="text-lg font-semibold text-white center text-opacity-90 mb-5 ">
-            Defendants
-          </h1>
+      <div className="mx-auto flex flex-row items-center justify-between w-2/3 ">
+        <div className="lg:text-xl sm:text-xs font-semibold text-white text-opacity-90">
+          Defendants
         </div>
-        <div className="w-full max-w-3xl flex flex-row  items-center bg-white rounded-lg ">
+        <div className="w-2/3 flex flex-row items-center bg-white rounded-lg ">
           <AppTextField
             placeholder="Name,  email"
             type="text"

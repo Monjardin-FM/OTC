@@ -1,71 +1,30 @@
 import React from 'react';
 import { AppButton } from 'presentation/components/AppButton';
-import AppDatePicker from 'presentation/components/AppDatePicker';
-import { AppFormField, AppFormLabel } from 'presentation/components/AppForm';
-import AppSelect from 'presentation/components/AppSelect';
-import AppTextField from 'presentation/components/AppTextField';
 import * as Icon from 'react-feather';
+import { useToggle } from 'react-use';
+import { AppVictimssTable } from 'modules/victim/web/components/app-victim-table';
+import { AddVictimForm } from './app-add-victim-form';
 export const VictimForm = () => {
+  const [visibleDeviceForm, setVisibleDeviceForm] = useToggle(false);
   return (
-    <div className="grid grid-cols-12 gap-y-4 gap-x-3">
-      <AppFormField className="col-span-4">
-        <AppFormLabel>Name</AppFormLabel>
-        <AppTextField />
-      </AppFormField>
-      <AppFormField className="col-span-4">
-        <AppFormLabel>Last Name</AppFormLabel>
-        <AppTextField />
-      </AppFormField>
-      <AppFormField className="col-span-4">
-        <AppFormLabel>Email</AppFormLabel>
-        <AppTextField />
-      </AppFormField>
-      <AppFormField className="col-span-2">
-        <AppFormLabel>Case Number</AppFormLabel>
-        <AppTextField />
-      </AppFormField>
-      <AppFormField className="col-span-2">
-        <AppFormLabel>Date of Birth</AppFormLabel>
-        <AppDatePicker onChange={() => {}} />
-      </AppFormField>
-      <AppFormField className="col-span-2">
-        <AppFormLabel>Gender</AppFormLabel>
-        <AppSelect>
-          <option value="">Select Gender</option>
-        </AppSelect>
-      </AppFormField>
-      <AppFormField className="col-span-2">
-        <AppFormLabel>Phone Number</AppFormLabel>
-        <AppTextField />
-      </AppFormField>
-      <AppFormField className="col-span-2">
-        <AppFormLabel>Address</AppFormLabel>
-        <AppTextField />
-      </AppFormField>
-      <AppFormField className="col-span-2">
-        <AppFormLabel>Work Address</AppFormLabel>
-        <AppTextField />
-      </AppFormField>
-      <AppFormField className="col-span-2">
-        <AppFormLabel>Password</AppFormLabel>
-        <AppTextField />
-      </AppFormField>
-
-      <div className="col-span-2 flex flex-col items-center justify-center">
+    <>
+      <div className="flex flex-col items-start justify-center">
         <AppButton
           colorScheme="primary"
           leftIcon={<Icon.PlusCircle size={18} />}
+          onClick={() => setVisibleDeviceForm(!visibleDeviceForm)}
         >
-          New Device
+          New Victim
         </AppButton>
       </div>
-      {/* <AppFormField className="col-span-6">
-          <AppFormLabel>Status</AppFormLabel>
-          <div className="flex flex-row items-center justify-center gap-5">
-            <span>Inactive</span>
-            <span>Active</span>
-          </div>
-        </AppFormField> */}
-    </div>
+      {visibleDeviceForm && (
+        <div className="col-span-12">
+          <AddVictimForm />
+        </div>
+      )}
+      <div className="col-span-12 mt-5">
+        <AppVictimssTable onEdit={() => {}} />
+      </div>
+    </>
   );
 };

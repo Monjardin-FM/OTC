@@ -1,8 +1,8 @@
+import React from 'react';
 import { AppButton } from 'presentation/components/AppButton';
 import { AppHero } from 'presentation/components/AppHero';
 import AppTextField from 'presentation/components/AppTextField';
-import React from 'react';
-import { Search } from 'react-feather';
+import * as Icon from 'react-feather';
 
 export const AppManagemenetUsersHeader = () => {
   return (
@@ -12,15 +12,13 @@ export const AppManagemenetUsersHeader = () => {
         background: 'linear-gradient(to right, #133a94, #919bff)',
       }}
     >
-      <div className="container flex flex-col items-center mx-auto">
-        <div className=" flex flex-col max-w-3xl w-full items-center px-4 justify-center absolute top-14">
-          <h1 className="text-lg font-semibold text-white center text-opacity-90 mb-5 ">
-            Management Users
-          </h1>
-        </div>
-        <div className="w-full max-w-3xl flex flex-row  items-center bg-white rounded-lg ">
+      <div className=" flex flex-row items-center justify-between mx-auto gap-5 w-2/3">
+        <h1 className="text-xl font-semibold text-white center text-opacity-90">
+          Users Management
+        </h1>
+        <div className="w-2/3 flex flex-row items-center bg-white rounded-lg ">
           <AppTextField
-            placeholder="Name, role, email"
+            placeholder="Name,  email"
             type="text"
             onChange={(e) => {
               //   setSearchUser(e.target.value);
@@ -35,7 +33,7 @@ export const AppManagemenetUsersHeader = () => {
               //   handleClick(fullNameUser);
             }}
           >
-            <Search />
+            <Icon.Search />
           </AppButton>
         </div>
       </div>

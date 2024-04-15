@@ -1,15 +1,15 @@
 export type Defendant = {
-  completeName: string;
+  idDefendant: number;
+  idPerson: number;
+  idOfficer: number;
   name: string;
   lastName: string;
   idCounty: number;
-  idOfficer: number;
   eMail: string;
-  sid: string;
-  offense: string;
-  caseNumber: string;
   birthDate: string;
   idGender: number;
+  idPersonType: number;
   idStatus: number;
-  password: string;
+  createdAt: string;
+  idRole: number;
 };

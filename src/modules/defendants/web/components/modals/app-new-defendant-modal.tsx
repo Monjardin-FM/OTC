@@ -20,6 +20,9 @@ import { DefendantForm } from '../forms/defendant-form';
 import { AppFormField, AppFormLabel } from 'presentation/components/AppForm';
 import AppTextField from 'presentation/components/AppTextField';
 import { VictimForm } from '../forms/victim-form';
+import { AlarmForm } from '../forms/alarm-form';
+import { AppToggleButton } from 'presentation/components/AppToggleButton';
+import { ReferenceForm } from '../forms/reference-from';
 
 export type AppNewDefendantModalProps = {
   isVisible: boolean;
@@ -36,10 +39,18 @@ export const AppNewDefendantModal = ({
         <AppModalContent>
           <AppModalHeader>New Defendant</AppModalHeader>
           <AppModalBody>
-            <div className="w-full grid grid-cols-3 items-center justify-center mb-3">
-              <AppFormField>
+            <div className="w-full grid grid-cols-3 items-center justify-center mb-3 gap-4">
+              <AppFormField className="col-span-1">
                 <AppFormLabel>Officer</AppFormLabel>
                 <AppTextField />
+              </AppFormField>
+              <AppFormField className="col-span-1">
+                <AppFormLabel>Status</AppFormLabel>
+                <div className="flex flex-row items-center justify-start gap-3">
+                  <span>Inactive</span>
+                  <AppToggleButton></AppToggleButton>
+                  <span>Active</span>
+                </div>
               </AppFormField>
             </div>
             <AppTabs
@@ -58,6 +69,12 @@ export const AppNewDefendantModal = ({
                 </AppTabPanel>
                 <AppTabPanel>
                   <VictimForm />
+                </AppTabPanel>
+                <AppTabPanel>
+                  <AlarmForm />
+                </AppTabPanel>
+                <AppTabPanel>
+                  <ReferenceForm />
                 </AppTabPanel>
               </AppTabPanels>
             </AppTabs>

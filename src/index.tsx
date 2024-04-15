@@ -8,7 +8,6 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { AppRouterBridge } from './AppRouterBridge';
 import reportWebVitals from './reportWebVitals';
-import { NextUIProvider } from '@nextui-org/react';
 dayjs.extend(customParseFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
@@ -16,9 +15,7 @@ dayjs.locale('es');
 
 ReactDOM.render(
   <React.StrictMode>
-    <NextUIProvider>
-      <AppRouterBridge />
-    </NextUIProvider>
+    <AppRouterBridge />
   </React.StrictMode>,
   document.getElementById('root'),
 );

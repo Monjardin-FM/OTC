@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppAuthorizationGuard } from 'presentation/components/AppAuthorizationGuard';
 import AppConfig from 'settings.json';
 import { UserRole } from 'modules/user/domain/entities/user-role';
@@ -10,9 +10,14 @@ import { AppTooltip } from 'presentation/components/AppTooltip';
 import { useToggle } from 'react-use';
 import { AppDefendantsTable } from './tables/app-defendants-table';
 import { AppNewDefendantModal } from './modals/app-new-defendant-modal';
+import { useGetDefendants } from '../hooks/use-get-defendants';
 export const AppDefendantsManagerPage = () => {
+  const { defendants, getDefendants } = useGetDefendants();
   const [visibleNewDefendantModal, setVisibleNewDefendantModal] =
     useToggle(false);
+  useEffect(() => {
+    getDefendants({ completeName: '' });
+  }, []);
   return (
     <AppAuthorizationGuard
       roles={
@@ -40,7 +45,7 @@ export const AppDefendantsManagerPage = () => {
           </div>
         </div>
         <div className="container mx-auto mt-5">
-          <AppDefendantsTable onEdit={() => {}} />
+          <AppDefendantsTable onEdit={() => {}} items={defendants} />
         </div>
       </AppPageTransition>
     </AppAuthorizationGuard>

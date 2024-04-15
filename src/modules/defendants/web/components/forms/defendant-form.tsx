@@ -5,7 +5,12 @@ import { AppFormField, AppFormLabel } from 'presentation/components/AppForm';
 import AppSelect from 'presentation/components/AppSelect';
 import AppTextField from 'presentation/components/AppTextField';
 import * as Icon from 'react-feather';
+import { useToggle } from 'react-use';
+import { DeviceForm } from './device-form';
+import { AppDevicessTable } from 'modules/devices/web/components/tables/app-device-table';
 export const DefendantForm = () => {
+  const [visibleDeviceForm, setVisibleDeviceForm] = useToggle(false);
+
   return (
     <div className="grid grid-cols-12 gap-y-4 gap-x-3">
       <AppFormField className="col-span-4">
@@ -72,17 +77,19 @@ export const DefendantForm = () => {
         <AppButton
           colorScheme="primary"
           leftIcon={<Icon.PlusCircle size={18} />}
+          onClick={() => setVisibleDeviceForm(!visibleDeviceForm)}
         >
           New Device
         </AppButton>
       </div>
-      {/* <AppFormField className="col-span-6">
-        <AppFormLabel>Status</AppFormLabel>
-        <div className="flex flex-row items-center justify-center gap-5">
-          <span>Inactive</span>
-          <span>Active</span>
+      {visibleDeviceForm && (
+        <div className="col-span-12">
+          <DeviceForm />
         </div>
-      </AppFormField> */}
+      )}
+      <div className="col-span-12">
+        <AppDevicessTable onEdit={() => {}} />
+      </div>
     </div>
   );
 };

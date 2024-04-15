@@ -7,7 +7,7 @@ import { token } from 'utils/token';
 export const getCountyService: UserManageRepository['getCounty'] = async () => {
   const response = await api().get('Catalog/County', {
     headers: {
-      Authorization: `Bearer  ${token()}`,
+      Authorization: `Bearer ${token()}`,
     },
   });
   const { body } = await verifyResponse({ response });

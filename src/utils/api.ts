@@ -2,6 +2,7 @@ import ky from 'ky';
 
 export const api = () => {
   const API_PATH = process.env.REACT_APP_API_URL;
+  console.log(API_PATH);
   if (!API_PATH) throw new Error('API credentials could not be found');
   return ky.create({
     prefixUrl: API_PATH,
