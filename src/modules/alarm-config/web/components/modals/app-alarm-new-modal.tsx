@@ -12,7 +12,6 @@ import {
 // import AppSelect from 'presentation/components/AppSelect';
 import AppTextField from 'presentation/components/AppTextField';
 import { Multiselect } from 'multiselect-react-dropdown';
-import { AppCheckbox } from 'presentation/components/AppCheckbox';
 
 export type AppNewAlarmModalProps = {
   isVisible: boolean;
@@ -34,7 +33,7 @@ export const AppNewAlarmModal = ({
     console.log(selectedItems);
   };
   return (
-    <AppModal isVisible={isVisible} onClose={onClose} size="5xl">
+    <AppModal isVisible={isVisible} onClose={onClose} size="7xl">
       <AppModalOverlay>
         <AppModalContent>
           <AppModalHeader>New Alarm</AppModalHeader>
@@ -42,13 +41,9 @@ export const AppNewAlarmModal = ({
             <form>
               <div className="grid grid-cols-12 gap-y-4 gap-x-3">
                 <div className="grid grid-cols-12 col-span-6 gap-x-3 gap-y-4">
-                  <AppFormField className="col-span-6">
-                    <AppFormLabel>Name/IMEI</AppFormLabel>
+                  <AppFormField className="col-span-12">
+                    <AppFormLabel>Name</AppFormLabel>
                     <AppTextField />
-                  </AppFormField>
-                  <AppFormField className="col-span-6">
-                    <AppFormLabel>Automatic Alarm</AppFormLabel>
-                    <AppCheckbox />
                   </AppFormField>
                   <AppFormField className="col-span-6">
                     <AppFormLabel>Response Devices</AppFormLabel>
@@ -86,13 +81,17 @@ export const AppNewAlarmModal = ({
                   </AppFormField>
                 </div>
                 <div className="grid grid-cols-12 col-span-6 gap-x-3 gap-y-5">
-                  <AppFormField className="col-span-12 ">
+                  <AppFormField className="col-span-6 ">
                     <AppFormLabel>Text SMS</AppFormLabel>
-                    <textarea className="w-full h-40 border border-gray-300 rounded-lg"></textarea>
+                    <textarea className="w-full h-40 border border-gray-300 rounded-lg p-5"></textarea>
                   </AppFormField>
-                  <AppFormField className="col-span-12">
+                  <AppFormField className="col-span-6">
                     <AppFormLabel>Text Mail</AppFormLabel>
-                    <textarea className="w-full h-40 border border-gray-300 rounded-lg"></textarea>
+                    <textarea className="w-full h-40 border border-gray-300 rounded-lg p-5"></textarea>
+                  </AppFormField>
+                  <AppFormField className="col-span-6 ">
+                    <AppFormLabel>Call</AppFormLabel>
+                    <textarea className="w-full h-40 border border-gray-300 rounded-lg p-5"></textarea>
                   </AppFormField>
                 </div>
               </div>

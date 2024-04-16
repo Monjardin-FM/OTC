@@ -35,11 +35,7 @@ export const AppNewDeviceModal = ({
                 </AppSelect>
               </AppFormField>
               <AppFormField className="col-span-6">
-                <AppFormLabel>Name/IMEI</AppFormLabel>
-                <AppTextField />
-              </AppFormField>
-              <AppFormField className="col-span-6">
-                <AppFormLabel>Phone Number</AppFormLabel>
+                <AppFormLabel>Phone Number / IMEI</AppFormLabel>
                 <AppTextField />
               </AppFormField>
 

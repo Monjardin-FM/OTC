@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.1.2",
+    "@formkit/auto-animate": "^0.8.1",
     "@headlessui/react": "^1.4.1",
     "@lottiefiles/react-lottie-player": "^3.3.1",
     "@reduxjs/toolkit": "^1.5.1",

@@ -4,10 +4,15 @@ import * as Icon from 'react-feather';
 import { useToggle } from 'react-use';
 import { AppVictimssTable } from 'modules/victim/web/components/app-victim-table';
 import { AddVictimForm } from './app-add-victim-form';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 export const VictimForm = () => {
   const [visibleDeviceForm, setVisibleDeviceForm] = useToggle(false);
+  const [parent] = useAutoAnimate();
   return (
-    <>
+    <div
+      ref={parent}
+      className="flex flex-col items-start justify-center gap-3"
+    >
       <div className="flex flex-col items-start justify-center">
         <AppButton
           colorScheme="primary"
@@ -18,13 +23,13 @@ export const VictimForm = () => {
         </AppButton>
       </div>
       {visibleDeviceForm && (
-        <div className="col-span-12">
+        <div className="w-full">
           <AddVictimForm />
         </div>
       )}
-      <div className="col-span-12 mt-5">
+      <div className="w-full mt-5">
         <AppVictimssTable onEdit={() => {}} />
       </div>
-    </>
+    </div>
   );
 };

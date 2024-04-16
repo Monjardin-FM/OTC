@@ -32,6 +32,7 @@ export const AppModalContent = ({
           'max-w-5xl': size === '5xl',
           'max-w-6xl': size === '6xl',
           'max-w-7xl': size === '7xl',
+          'max-w-full': size === 'full',
         },
         className,
       )}

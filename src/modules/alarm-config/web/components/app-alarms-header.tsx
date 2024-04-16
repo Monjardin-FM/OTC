@@ -13,7 +13,7 @@ export const AppAlarmsHeader = () => {
     >
       <div className=" flex flex-row items-center justify-between mx-auto gap-5 w-2/3">
         <h1 className="text-xl font-semibold text-white center text-opacity-90">
-          Alarms
+          Automatic Alarms
         </h1>
         <div className="w-2/3 flex flex-row items-center bg-white rounded-lg ">
           <AppTextField

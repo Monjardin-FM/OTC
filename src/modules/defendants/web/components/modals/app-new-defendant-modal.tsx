@@ -23,6 +23,7 @@ import { VictimForm } from '../forms/victim-form';
 import { AlarmForm } from '../forms/alarm-form';
 import { AppToggleButton } from 'presentation/components/AppToggleButton';
 import { ReferenceForm } from '../forms/reference-from';
+import { AppBadge } from 'presentation/components/AppBadge';
 
 export type AppNewDefendantModalProps = {
   isVisible: boolean;
@@ -34,10 +35,20 @@ export const AppNewDefendantModal = ({
 }: AppNewDefendantModalProps) => {
   const [selectedTab, setSelectedTab] = useState<number>(0);
   return (
-    <AppModal isVisible={isVisible} onClose={onClose} size="6xl">
+    <AppModal isVisible={isVisible} onClose={onClose} size="full">
       <AppModalOverlay>
         <AppModalContent>
-          <AppModalHeader>New Defendant</AppModalHeader>
+          <AppModalHeader>
+            <div className="flex flex-row items-center justify-evenly gap-5 ">
+              <span>New Defendant</span>
+              <span>
+                <AppBadge colorScheme="warn">Defendant Name:</AppBadge>
+              </span>
+              <span>
+                <AppBadge colorScheme="warn">SID:</AppBadge>
+              </span>
+            </div>
+          </AppModalHeader>
           <AppModalBody>
             <div className="w-full grid grid-cols-3 items-center justify-center mb-3 gap-4">
               <AppFormField className="col-span-1">

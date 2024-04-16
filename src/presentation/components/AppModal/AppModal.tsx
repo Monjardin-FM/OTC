@@ -13,7 +13,8 @@ export type AppModalSize =
   | '4xl'
   | '5xl'
   | '6xl'
-  | '7xl';
+  | '7xl'
+  | 'full';
 
 export type AppModalContextType = {
   onClose: () => void;

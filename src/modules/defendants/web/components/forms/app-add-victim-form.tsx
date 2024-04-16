@@ -6,7 +6,7 @@ import AppTextField from 'presentation/components/AppTextField';
 import AppDatePicker from 'presentation/components/AppDatePicker';
 export const AddVictimForm = () => {
   return (
-    <div className="grid grid-cols-12 gap-y-4 gap-x-3 col-span-12 border border-gray-300 rounded-lg p-6">
+    <div className="grid grid-cols-12 gap-y-4 gap-x-3 col-span-12 border border-gray-300 rounded-lg p-6 bg-gray-200">
       <AppFormField className="col-span-4">
         <AppFormLabel>Name</AppFormLabel>
         <AppTextField />

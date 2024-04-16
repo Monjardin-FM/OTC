@@ -42,18 +42,16 @@ const NameTrackingColumn = (params: RenderFnParams<Tracking>) => {
           <Icon.User size={20} />
         </AppAvatar>
       </div>
-      <AppBadge>
-        <div className="font-semibold text-sm text-primary-600 tracking-wider">
-          {params.record.name}
-        </div>
-      </AppBadge>
+      <div className="font-semibold text-sm text-primary-700 tracking-wider">
+        {params.record.name}
+      </div>
     </div>
   );
 };
 const SIDTrackingColumn = (params: RenderFnParams<Tracking>) => {
   return (
     <div className="flex items-center space-x-3">
-      <AppBadge>
+      <AppBadge colorScheme="info">
         <div className="font-semibold text-sm text-primary-600 tracking-wider">
           {params.record.SID}
         </div>
@@ -64,10 +62,16 @@ const SIDTrackingColumn = (params: RenderFnParams<Tracking>) => {
 const BatteryTrackingColumn = (params: RenderFnParams<Tracking>) => {
   return (
     <div className="flex items-center space-x-3">
-      <div>
-        <div className="font-semibold tracking-wider">
-          {params.record.Battery}
-        </div>
+      <div className="font-semibold tracking-wider">
+        {params.record.Battery ? (
+          <div className="bg-success-300 rounded-lg p-2 text-success-600">
+            <Icon.Circle size={18} />
+          </div>
+        ) : (
+          <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
+            <Icon.AlertTriangle size={18} />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -75,10 +79,16 @@ const BatteryTrackingColumn = (params: RenderFnParams<Tracking>) => {
 const PositionTrackingColumn = (params: RenderFnParams<Tracking>) => {
   return (
     <div className="flex items-center space-x-3">
-      <div>
-        <div className="font-semibold tracking-wider">
-          {params.record.position}
-        </div>
+      <div className="font-semibold tracking-wider">
+        {params.record.position ? (
+          <div className="bg-success-300 rounded-lg p-2 text-success-600">
+            <Icon.Circle size={18} />
+          </div>
+        ) : (
+          <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
+            <Icon.AlertTriangle size={18} />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -86,16 +96,36 @@ const PositionTrackingColumn = (params: RenderFnParams<Tracking>) => {
 
 const PerimeterTrackingColumn = (params: RenderFnParams<Tracking>) => {
   return (
-    <AppBadge colorScheme="primary">
-      <div className="font-medium text-sm">{params.record.perimeter}</div>
-    </AppBadge>
+    <div className="flex items-center space-x-3">
+      <div className="font-semibold tracking-wider">
+        {params.record.position ? (
+          <div className="bg-success-300 rounded-lg p-2 text-success-600">
+            <Icon.Circle size={18} />
+          </div>
+        ) : (
+          <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
+            <Icon.AlertTriangle size={18} />
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 const TamperingTrackingColumn = (params: RenderFnParams<Tracking>) => {
   return (
-    <AppBadge colorScheme="primary">
-      <div className="font-medium text-sm">{params.record.tampering}</div>
-    </AppBadge>
+    <div className="flex items-center space-x-3">
+      <div className="font-semibold tracking-wider">
+        {params.record.position ? (
+          <div className="bg-success-300 rounded-lg p-2 text-success-600">
+            <Icon.Circle size={18} />
+          </div>
+        ) : (
+          <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
+            <Icon.AlertTriangle size={18} />
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 

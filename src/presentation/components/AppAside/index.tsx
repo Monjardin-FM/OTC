@@ -67,7 +67,7 @@ export const AppAsideV2 = ({
             >
               <AppAsideLink
                 icon={<Icon.Clock size={20} />}
-                label="Alarm Config"
+                label="Automatic Alarms"
                 to="/alarm-config"
               />
             </AppAuthorizationGuard>
