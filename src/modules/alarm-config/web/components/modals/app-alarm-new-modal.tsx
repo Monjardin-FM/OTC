@@ -23,6 +23,7 @@ import { AppToggleButton } from 'presentation/components/AppToggleButton';
 export type AppNewAlarmModalProps = {
   isVisible: boolean;
   onClose: () => void;
+  onReload: () => void;
 };
 type AlarmCreateFormValues = {
   name: string;
@@ -37,6 +38,7 @@ type AlarmCreateFormValues = {
 export const AppNewAlarmModal = ({
   isVisible,
   onClose,
+  onReload,
 }: AppNewAlarmModalProps) => {
   const { createAlarm } = useCreateAlarm();
   const { responsiveDevices, getResponsiveDevices } = useGetResponsiveDevices();
@@ -50,6 +52,7 @@ export const AppNewAlarmModal = ({
   const [status, setStatus] = useState(false);
 
   const onSubmitHandler = async (data: AlarmCreateFormValues) => {
+    console.log(data);
     await createAlarm({
       automatic: status,
       callText: data.callResponse,
@@ -65,6 +68,7 @@ export const AppNewAlarmModal = ({
       mailText: data.textMail,
       smsText: data.textSMS,
     });
+    onReload();
   };
   const onSelectResponseDevices = (selectedList: [], selectedItems: []) => {
     setSelectedResponseDevices(selectedList);

@@ -10,7 +10,7 @@ export const createAlarmService: AlarmRepository['createAlarm'] = async (
     headers: {
       Authorization: `Bearer ${token()}`,
     },
-    json: JSON.stringify(params),
+    json: params,
   });
   await verifyResponse({ response });
 };

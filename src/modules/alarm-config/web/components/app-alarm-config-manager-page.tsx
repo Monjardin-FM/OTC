@@ -13,10 +13,11 @@ import { AppAlarmssTable } from './tables/app-alarm-table';
 import { useGetAlarms } from '../hooks/use-get-alarms';
 export const AppAlarmConfigManagerPage = () => {
   const [visibleNewAlarmModal, setVisibleNewAlarmModal] = useToggle(false);
+  const [toggleReload, setToggleReload] = useToggle(false);
   const { alarms, getAlarms } = useGetAlarms();
   useEffect(() => {
     getAlarms();
-  }, []);
+  }, [toggleReload]);
   return (
     <AppAuthorizationGuard
       roles={
@@ -27,6 +28,7 @@ export const AppAlarmConfigManagerPage = () => {
       <AppNewAlarmModal
         isVisible={visibleNewAlarmModal}
         onClose={() => setVisibleNewAlarmModal(false)}
+        onReload={() => setToggleReload(!toggleReload)}
       />
       <AppPageTransition>
         <div className="items-center mx-auto mb-5">
