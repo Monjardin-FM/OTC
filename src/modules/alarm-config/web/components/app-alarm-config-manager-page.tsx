@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { AppAuthorizationGuard } from 'presentation/components/AppAuthorizationGuard';
 import AppConfig from 'settings.json';
 import { UserRole } from 'modules/user/domain/entities/user-role';
@@ -10,9 +10,13 @@ import { AppTooltip } from 'presentation/components/AppTooltip';
 import { AppAlarmsHeader } from './app-alarms-header';
 import { AppNewAlarmModal } from './modals/app-alarm-new-modal';
 import { AppAlarmssTable } from './tables/app-alarm-table';
+import { useGetAlarms } from '../hooks/use-get-alarms';
 export const AppAlarmConfigManagerPage = () => {
   const [visibleNewAlarmModal, setVisibleNewAlarmModal] = useToggle(false);
-
+  const { alarms, getAlarms } = useGetAlarms();
+  useEffect(() => {
+    getAlarms();
+  }, []);
   return (
     <AppAuthorizationGuard
       roles={
@@ -40,7 +44,7 @@ export const AppAlarmConfigManagerPage = () => {
           </div>
         </div>
         <div className="container mx-auto mt-5">
-          <AppAlarmssTable onEdit={() => {}} />
+          <AppAlarmssTable onEdit={() => {}} items={alarms} />
         </div>
       </AppPageTransition>
     </AppAuthorizationGuard>

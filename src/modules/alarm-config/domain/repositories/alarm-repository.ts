@@ -1,4 +1,7 @@
+import { Alarm } from '../entities/alarms';
+
 export type AlarmRepository = {
+  getAlarms(): Promise<Alarm[]>;
   createAlarm(params: {
     lResponseDevice: { idResponseDevice: number }[];
     lAssignedDevice: { idDeviceType: number }[];

@@ -8,7 +8,6 @@ import {
 } from 'presentation/components/AppDataGrid';
 import { UIColorScheme } from 'presentation/types/ui-color-schema';
 import { AppAvatar } from 'presentation/components/AppAvatar';
-import { AppBadge } from 'presentation/components/AppBadge';
 import { AppButton } from 'presentation/components/AppButton';
 import { AppTooltip } from 'presentation/components/AppTooltip';
 export type AlarmsTableProps = {
@@ -37,14 +36,16 @@ const NameAlarmsColumn = (params: RenderFnParams<Alarm>) => {
       <div>
         <AppAvatar
           colorSchema={getRandomColorSchema({
-            length: params.record.name.length,
+            length: params.record.description.length,
           })}
         >
-          <Icon.User size={20} />
+          <Icon.Clock size={20} />
         </AppAvatar>
       </div>
       <div>
-        <div className="font-semibold tracking-wider">{params.record.name}</div>
+        <div className="font-semibold tracking-wider">
+          {params.record.description}
+        </div>
       </div>
     </div>
   );
@@ -52,9 +53,19 @@ const NameAlarmsColumn = (params: RenderFnParams<Alarm>) => {
 
 const StatusAlarmsColumn = (params: RenderFnParams<Alarm>) => {
   return (
-    <AppBadge colorScheme="primary">
-      <div className="font-medium text-sm">{params.record.status}</div>
-    </AppBadge>
+    <div className="font-medium text-sm">
+      {params.record.idStatus ? (
+        <div className="bg-success-300 rounded-lg p-2 text-success-600 group relative inline-block text-center">
+          <Icon.Circle size={18} />
+          <AppTooltip>Active</AppTooltip>
+        </div>
+      ) : (
+        <div className="bg-danger-300 rounded-lg p-2 text-danger-600  group relative inline-block text-center">
+          <Icon.AlertTriangle size={18} />
+          <AppTooltip>Inactive</AppTooltip>
+        </div>
+      )}
+    </div>
   );
 };
 
