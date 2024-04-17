@@ -2,6 +2,7 @@ import React from 'react';
 import { AppFormField, AppFormLabel } from 'presentation/components/AppForm';
 import AppTextField from 'presentation/components/AppTextField';
 import { AppButton } from 'presentation/components/AppButton';
+import { AppReferenceContactsTable } from '../tables/app-reference-contacts-table';
 export const ReferenceForm = () => {
   return (
     <div className="grid grid-cols-12 gap-4 ">
@@ -23,6 +24,9 @@ export const ReferenceForm = () => {
       </AppFormField>
       <div className="col-span-12">
         <AppButton colorScheme="primary">Add</AppButton>
+      </div>
+      <div className="col-span-12">
+        <AppReferenceContactsTable onEdit={() => {}} />
       </div>
     </div>
   );

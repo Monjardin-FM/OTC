@@ -24,7 +24,7 @@ export const VictimForm = () => {
       </div>
       {visibleDeviceForm && (
         <div className="w-full">
-          <AddVictimForm />
+          <AddVictimForm onClose={() => setVisibleDeviceForm(false)} />
         </div>
       )}
       <div className="w-full mt-5">
