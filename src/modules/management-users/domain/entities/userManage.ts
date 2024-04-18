@@ -12,4 +12,5 @@ export type UserManage = {
   idStatus: number;
   createdAt: string;
   idRole: number;
+  role: string;
 };

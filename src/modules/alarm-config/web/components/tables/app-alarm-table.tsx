@@ -15,6 +15,7 @@ export type AlarmsTableProps = {
   // onUpdateClient: (data: Client) => void;
   items?: Alarm[];
   onEdit: (params: RenderFnParams<Alarm>) => void;
+  onDelete: (params: RenderFnParams<Alarm>) => void;
   // onNotification: (params: RenderFnParams<UserManage>) => void;
   // onUpdateAlmacen: (params: RenderFnParams<UserManage>) => void;
 };
@@ -54,7 +55,7 @@ const NameAlarmsColumn = (params: RenderFnParams<Alarm>) => {
 const StatusAlarmsColumn = (params: RenderFnParams<Alarm>) => {
   return (
     <div className="font-medium text-sm">
-      {params.record.idStatus ? (
+      {params.record.idStatus === 1 ? (
         <div className="bg-success-300 rounded-lg p-2 text-success-600 group relative inline-block text-center">
           <Icon.Circle size={18} />
           <AppTooltip>Active</AppTooltip>
@@ -71,9 +72,11 @@ const StatusAlarmsColumn = (params: RenderFnParams<Alarm>) => {
 
 const ActionsColumn = ({
   onEdit,
+  onDelete,
   record,
 }: RenderFnParams<Alarm> & {
   onEdit: () => void;
+  onDelete: () => void;
 }) => {
   return (
     <div className="flex flex-row items-center justify-start gap-8">
@@ -93,13 +96,14 @@ const ActionsColumn = ({
       <div className="group relative inline-block text-center">
         <AppButton
           onClick={() => {
-            onEdit();
+            onDelete();
           }}
           title="Delete Alarm"
           size="sm"
           variant="ghost"
+          colorScheme="danger"
         >
-          <Icon.Eye size={18} />
+          <Icon.XOctagon size={18} />
         </AppButton>
         <AppTooltip>Delete Alarm</AppTooltip>
       </div>
@@ -107,7 +111,11 @@ const ActionsColumn = ({
   );
 };
 
-export const AppAlarmssTable = ({ items = [], onEdit }: AlarmsTableProps) => {
+export const AppAlarmssTable = ({
+  items = [],
+  onEdit,
+  onDelete,
+}: AlarmsTableProps) => {
   const columns: AppDataGridColumn<Alarm>[] = [
     {
       key: 'AlarmsName',
@@ -131,6 +139,9 @@ export const AppAlarmssTable = ({ items = [], onEdit }: AlarmsTableProps) => {
           ...data,
           onEdit: () => {
             onEdit(data);
+          },
+          onDelete: () => {
+            onDelete(data);
           },
         }),
     },

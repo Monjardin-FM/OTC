@@ -51,7 +51,7 @@ const RoleUserColumn = (params: RenderFnParams<UserManage>) => {
   return (
     <AppBadge>
       <div className="font-semibold text-sm text-primary-600 tracking-wider">
-        {params.record.idRole}
+        {params.record.role}
       </div>
     </AppBadge>
   );
@@ -94,7 +94,7 @@ const ActionsColumn = ({
           variant="ghost"
           colorScheme="danger"
           onClick={() => {
-            onEdit();
+            onDelete();
           }}
         >
           <Icon.XOctagon size={18} />

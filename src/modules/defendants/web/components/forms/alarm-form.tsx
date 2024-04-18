@@ -23,7 +23,7 @@ export const AlarmForm = () => {
         </div>
       )}
       <div className=" col-span-12">
-        <AppAlarmssTable onEdit={() => {}} />
+        <AppAlarmssTable onEdit={() => {}} onDelete={() => {}} />
       </div>
     </div>
   );

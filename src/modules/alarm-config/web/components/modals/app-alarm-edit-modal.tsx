@@ -11,20 +11,22 @@ import {
 } from 'presentation/components/AppModal';
 import AppTextField from 'presentation/components/AppTextField';
 import { Multiselect } from 'multiselect-react-dropdown';
-import { useCreateAlarm } from '../../hooks/use-create-alarm';
 import { Formik } from 'formik';
 import { useGetResponsiveDevices } from 'modules/catalog/hooks/use-get-responsive-devices';
 import { useGetDeviceType } from 'modules/catalog/hooks/use-get-device-type';
 import { ResponseDevice } from 'modules/catalog/domain/entities/response-device';
 import { DeviceType } from 'modules/catalog/domain/entities/device-type';
 import { AppToggleButton } from 'presentation/components/AppToggleButton';
+import { useGetAlarmById } from '../../hooks/use-get-alarm-by-id';
+import { useUpdateAlarm } from '../../hooks/use-update-alarm';
 
-export type AppNewAlarmModalProps = {
+export type AppEditAlarmModalProps = {
   isVisible: boolean;
   onClose: () => void;
   onReload: () => void;
+  idAlarm?: number | null;
 };
-type AlarmCreateFormValues = {
+type AlarmEditFormValues = {
   name: string;
   interval: number;
   geocordinateTimeout: number;
@@ -34,14 +36,16 @@ type AlarmCreateFormValues = {
   textMail: string;
   callResponse: string;
 };
-export const AppNewAlarmModal = ({
+export const AppEditAlarmModal = ({
   isVisible,
   onClose,
   onReload,
-}: AppNewAlarmModalProps) => {
-  const { createAlarm } = useCreateAlarm();
+  idAlarm,
+}: AppEditAlarmModalProps) => {
+  const { updateAlarm } = useUpdateAlarm();
   const { responsiveDevices, getResponsiveDevices } = useGetResponsiveDevices();
   const { deviceType, getDeviceType } = useGetDeviceType();
+  const { alarm, getAlarmById } = useGetAlarmById();
   const [selectedResponseDevicesValues, setSelectedResponseDevices] = useState<
     Omit<ResponseDevice, 'responseDevice'>[]
   >([]);
@@ -50,8 +54,9 @@ export const AppNewAlarmModal = ({
   >([]);
   const [status, setStatus] = useState(false);
 
-  const onSubmitHandler = async (data: AlarmCreateFormValues) => {
-    await createAlarm({
+  const onSubmitHandler = async (data: AlarmEditFormValues) => {
+    await updateAlarm({
+      idAlarmType: alarm?.idAlarmType ? alarm.idAlarmType : 0,
       automatic: status,
       callText: data.callResponse,
       enableResponseCall: data.callResponse.length > 0,
@@ -69,41 +74,27 @@ export const AppNewAlarmModal = ({
     onReload();
     onClose();
   };
+  const onSelectResponseDevices = (selectedList: [], selectedItems: []) => {
+    console.log(selectedList);
+    console.log(selectedItems);
 
-  const getIdResponse = (
-    selectedList: ResponseDevice[],
-  ): Omit<ResponseDevice, 'responseDevice'>[] => {
-    return selectedList.map((device) => ({
-      idResponseDevice: device.idResponseDevice,
-    }));
+    setSelectedResponseDevices(selectedList);
   };
-  const getIdDevice = (
-    selectedList: DeviceType[],
-  ): Omit<DeviceType, 'deviceType'>[] => {
-    return selectedList.map((device) => ({
-      idDeviceType: device.idDeviceType,
-    }));
-  };
-  const onSelectResponseDevices = (
-    selectedList: ResponseDevice[],
-    selectedItems: [],
-  ) => {
-    const idList: Omit<ResponseDevice, 'responseDevice'>[] =
-      getIdResponse(selectedList);
-    console.log(idList);
-    setSelectedResponseDevices(idList);
-  };
-  const onSelectDeviceType = (
-    selectedList: DeviceType[],
-    selectedItems: [],
-  ) => {
-    const idList: Omit<DeviceType, 'deviceType'>[] = getIdDevice(selectedList);
-    setSelectedDeviceType(idList);
+  const onSelectDeviceType = (selectedList: [], selectedItems: []) => {
+    console.log(selectedList);
+    setSelectedDeviceType(selectedList);
   };
   useEffect(() => {
+    if (idAlarm) getAlarmById({ idAlarmType: idAlarm });
     getResponsiveDevices();
     getDeviceType();
-  }, []);
+  }, [idAlarm]);
+  useEffect(() => {
+    if (alarm) {
+      setSelectedResponseDevices(alarm.lResponseDevice);
+      setStatus(alarm?.automatic);
+    }
+  }, [idAlarm]);
   return (
     <AppModal isVisible={isVisible} onClose={onClose} size="7xl">
       <AppModalOverlay>
@@ -111,21 +102,26 @@ export const AppNewAlarmModal = ({
           <Formik
             enableReinitialize
             initialValues={{
-              name: '',
-              automatic: false,
-              interval: 0,
-              geocordinateTimeout: 0,
-              restrainingDistance: 0,
-              cancellationTime: 0,
-              textSMS: '',
-              textMail: '',
-              callResponse: '',
+              name: alarm?.description ? alarm.description : '',
+              automatic: status,
+              interval: alarm?.responseInterval ? alarm.responseInterval : 0,
+              geocordinateTimeout: alarm?.geocordinateTimeout
+                ? alarm.geocordinateTimeout
+                : 0,
+              restrainingDistance: alarm?.dynamicDistance
+                ? alarm.dynamicDistance
+                : 0,
+              cancellationTime: alarm?.resolveTime ? alarm.resolveTime : 0,
+              textSMS: alarm?.smsText ? alarm.smsText : '',
+              textMail: alarm?.mailText ? alarm.mailText : '',
+              callResponse: alarm?.callText ? alarm.callText : '',
             }}
             onSubmit={onSubmitHandler}
           >
             {({ handleSubmit, handleChange, values }) => (
               <form onSubmit={handleSubmit}>
-                <AppModalHeader>New Alarm</AppModalHeader>
+                {console.log(values)}
+                <AppModalHeader>Edit Alarm</AppModalHeader>
                 <AppModalBody>
                   <div className="grid grid-cols-12 gap-y-4 gap-x-3">
                     <div className="grid grid-cols-12 col-span-6 gap-x-3 gap-y-4">
@@ -168,6 +164,7 @@ export const AppNewAlarmModal = ({
                           showCheckbox={true}
                           options={responsiveDevices}
                           onSelect={onSelectResponseDevices}
+                          avoidHighlightFirstOption
                         />
                       </AppFormField>
                       <AppFormField className="col-span-6">
@@ -177,6 +174,7 @@ export const AppNewAlarmModal = ({
                           showCheckbox={true}
                           options={deviceType}
                           onSelect={onSelectDeviceType}
+                          avoidHighlightFirstOption
                         />
                       </AppFormField>
                       <AppFormField className="col-span-6">
