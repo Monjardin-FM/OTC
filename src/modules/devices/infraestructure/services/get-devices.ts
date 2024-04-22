@@ -4,12 +4,15 @@ import { api } from 'utils/api';
 import { verifyResponse } from 'utils/check-response';
 import { token } from 'utils/token';
 
-export const getDevicesService: DeviceRepository['getDevice'] = async () => {
+export const getDevicesService: DeviceRepository['getDevice'] = async (
+  params,
+) => {
   const response = await api().get('Device', {
     headers: {
       Authorization: `Bearer ${token()}`,
       'Content-Type': 'application/json',
     },
+    searchParams: params,
   });
   const { body } = await verifyResponse({ response });
   const data = body.data as any[];

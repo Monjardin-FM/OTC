@@ -3,7 +3,18 @@ import { AppButton } from 'presentation/components/AppButton';
 import { AppHero } from 'presentation/components/AppHero';
 import AppTextField from 'presentation/components/AppTextField';
 import * as Icon from 'react-feather';
-export const AppDevicesHeader = () => {
+export type AppDevicesHeaderProps = {
+  onClick: (search: string) => void;
+  loadingDevices: boolean;
+  search: string;
+  setSearch: (search: string) => void;
+};
+export const AppDevicesHeader = ({
+  loadingDevices,
+  onClick,
+  search,
+  setSearch,
+}: AppDevicesHeaderProps) => {
   return (
     <AppHero
       size="base"
@@ -20,16 +31,15 @@ export const AppDevicesHeader = () => {
             placeholder="Name,  email"
             type="text"
             onChange={(e) => {
-              //   setSearchUser(e.target.value);
-              //   setVisible(true);
+              setSearch(e.target.value);
             }}
-            // value={searchUser}
+            value={search}
           ></AppTextField>
           <AppButton
             variant="ghost"
-            isLoading={false}
+            isLoading={loadingDevices}
             onClick={() => {
-              //   handleClick(fullNameUser);
+              onClick(search);
             }}
           >
             <Icon.Search />

@@ -18,11 +18,22 @@ import { AppLoading } from 'presentation/components/AppLoading';
 export const ManagementUsersManagerPage = () => {
   const [visibleNewUserModal, setVisibleNewUserModal] = useToggle(false);
   const [visibleEditUserModal, setVisibleEditUserModal] = useToggle(false);
-  const { users, getUsers, error } = useGetUsers();
+  const { users, getUsers, error, loading: loadingUsers } = useGetUsers();
   const [toggleReload, setToggleReload] = useToggle(false);
   const [userId, setUserId] = useState<number | null>(1);
   const { deleteUser, error: errorDelete } = useDeleteUser();
-
+  const onClick = (search: string) => {
+    getUsers({ completeName: search });
+  };
+  const [search, setSearch] = useState<string>('');
+  useEffect(() => {
+    if (search.length > 1 || search.length === 0) {
+      const timeDelay = setTimeout(() => {
+        onClick(search);
+      }, 500);
+      return () => clearTimeout(timeDelay);
+    }
+  }, [search, toggleReload]);
   useEffect(() => {
     if (error) {
       AppToast().fire({ title: 'Error' });
@@ -61,7 +72,12 @@ export const ManagementUsersManagerPage = () => {
       />
       <AppPageTransition>
         <div className="items-center mx-auto mb-5">
-          <AppManagemenetUsersHeader />
+          <AppManagemenetUsersHeader
+            onClick={onClick}
+            loadingUsers={loadingUsers}
+            search={search}
+            setSearch={setSearch}
+          />
         </div>
         <div className="container mx-auto flex flex-col items-end jusitfy-center">
           <div className="group relative inline-block text-center">

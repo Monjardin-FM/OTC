@@ -1,7 +1,7 @@
 import { Device } from '../entities/device';
 
 export type DeviceRepository = {
-  getDevice(): Promise<Device[]>;
+  getDevice(params: { completeName: string }): Promise<Device[]>;
   getDeviceById(params: { idDevice: number }): Promise<Device>;
   createDevice(params: {
     idDeviceType: number;

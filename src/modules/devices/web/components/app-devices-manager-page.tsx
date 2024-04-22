@@ -19,11 +19,23 @@ export const AppDevicesManagerPage = () => {
   const [visibleNewDeviceModal, setVisibleNewDeviceModal] = useToggle(false);
   const [visibleEditDeviceModal, setVisibleEditDeviceModal] = useToggle(false);
   const [idDevice, setIdDevice] = useState<number>();
-  const { devices, getDevices } = useGetDevices();
+  const { devices, getDevices, loading: loadingDevices } = useGetDevices();
   const [toggleReload, setToggleReload] = useToggle(false);
   const { deleteDevice } = useDeleteDevice();
+  const onClick = (search: string) => {
+    getDevices({ completeName: search });
+  };
+  const [search, setSearch] = useState<string>('');
   useEffect(() => {
-    getDevices();
+    if (search.length > 1 || search.length === 0) {
+      const timeDelay = setTimeout(() => {
+        onClick(search);
+      }, 500);
+      return () => clearTimeout(timeDelay);
+    }
+  }, [search, toggleReload]);
+  useEffect(() => {
+    getDevices({ completeName: '' });
   }, [toggleReload]);
   return (
     <AppAuthorizationGuard
@@ -46,7 +58,12 @@ export const AppDevicesManagerPage = () => {
       />
       <AppPageTransition>
         <div className="items-center mx-auto mb-5">
-          <AppDevicesHeader />
+          <AppDevicesHeader
+            onClick={onClick}
+            loadingDevices={loadingDevices}
+            search={search}
+            setSearch={setSearch}
+          />
         </div>
         <div className="container mx-auto flex flex-col items-end jusitfy-center">
           <div className="group relative inline-block text-center">

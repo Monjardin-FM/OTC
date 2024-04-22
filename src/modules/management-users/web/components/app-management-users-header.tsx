@@ -3,8 +3,18 @@ import { AppButton } from 'presentation/components/AppButton';
 import { AppHero } from 'presentation/components/AppHero';
 import AppTextField from 'presentation/components/AppTextField';
 import * as Icon from 'react-feather';
-
-export const AppManagemenetUsersHeader = () => {
+export type AppManagemenetUsersHeaderProps = {
+  onClick: (search: string) => void;
+  loadingUsers: boolean;
+  search: string;
+  setSearch: (search: string) => void;
+};
+export const AppManagemenetUsersHeader = ({
+  loadingUsers,
+  onClick,
+  search,
+  setSearch,
+}: AppManagemenetUsersHeaderProps) => {
   return (
     <AppHero
       size="base"
@@ -21,16 +31,15 @@ export const AppManagemenetUsersHeader = () => {
             placeholder="Name,  email"
             type="text"
             onChange={(e) => {
-              //   setSearchUser(e.target.value);
-              //   setVisible(true);
+              setSearch(e.target.value);
             }}
-            // value={searchUser}
+            value={search}
           ></AppTextField>
           <AppButton
             variant="ghost"
-            isLoading={false}
+            isLoading={loadingUsers}
             onClick={() => {
-              //   handleClick(fullNameUser);
+              onClick(search);
             }}
           >
             <Icon.Search />
