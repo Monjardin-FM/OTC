@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrackingDetail } from 'modules/tracking/domain/entities/tracking-detail';
+import { PersonAlert } from 'modules/tracking/domain/entities/tracking-detail';
 import { AppAvatar } from 'presentation/components/AppAvatar';
 import {
   AppDataGrid,
@@ -13,13 +13,13 @@ import { AppBadge } from 'presentation/components/AppBadge';
 export type TrackingDetailsTableProps = {
   // onToggleStatus?: (index: Client) => void;
   // onUpdateClient: (data: Client) => void;
-  items?: TrackingDetail[];
-  onEdit: (params: RenderFnParams<TrackingDetail>) => void;
+  items?: PersonAlert[];
+  onEdit: (params: RenderFnParams<PersonAlert>) => void;
   // onNotification: (params: RenderFnParams<UserManage>) => void;
   // onUpdateAlmacen: (params: RenderFnParams<UserManage>) => void;
 };
 
-const NameTrackingDetailColumn = (params: RenderFnParams<TrackingDetail>) => {
+const NameTrackingDetailColumn = (params: RenderFnParams<PersonAlert>) => {
   return (
     <div className="flex items-center space-x-3">
       <div>
@@ -28,29 +28,27 @@ const NameTrackingDetailColumn = (params: RenderFnParams<TrackingDetail>) => {
         </AppAvatar>
       </div>
       <div className="font-semibold text-sm text-primary-700 TrackingDetail-wider">
-        {params.record.alarmType}
+        {params.record.alarmName}
       </div>
     </div>
   );
 };
-const SIDTrackingDetailColumn = (params: RenderFnParams<TrackingDetail>) => {
+const DateTrackingDetailColumn = (params: RenderFnParams<PersonAlert>) => {
   return (
     <div className="flex items-center space-x-3">
       <AppBadge colorScheme="info">
         <div className="font-semibold text-sm text-primary-600 TrackingDetail-wider">
-          {params.record.Date}
+          {params.record.timestamp}
         </div>
       </AppBadge>
     </div>
   );
 };
-const BatteryTrackingDetailColumn = (
-  params: RenderFnParams<TrackingDetail>,
-) => {
+const StatusTrackingDetailColumn = (params: RenderFnParams<PersonAlert>) => {
   return (
     <div className="flex items-center space-x-3">
       <div className="font-semibold TrackingDetail-wider">
-        {params.record.startus ? (
+        {params.record.seqMachineState ? (
           <div className="bg-success-300 rounded-lg p-2 text-success-600 group relative inline-block text-center">
             <Icon.Circle size={18} />
             <AppTooltip>Active</AppTooltip>
@@ -68,7 +66,7 @@ const BatteryTrackingDetailColumn = (
 const ActionsColumn = ({
   onEdit,
   record,
-}: RenderFnParams<TrackingDetail> & {
+}: RenderFnParams<PersonAlert> & {
   onEdit: () => void;
 }) => {
   return (
@@ -95,7 +93,7 @@ export const AppTrackingDetailsTable = ({
   items = [],
   onEdit,
 }: TrackingDetailsTableProps) => {
-  const columns: AppDataGridColumn<TrackingDetail>[] = [
+  const columns: AppDataGridColumn<PersonAlert>[] = [
     {
       key: 'TrackingDetailName',
       dataIndex: 'TrackingDetailName',
@@ -103,16 +101,16 @@ export const AppTrackingDetailsTable = ({
       render: NameTrackingDetailColumn,
     },
     {
-      key: 'TrackingDetailSID',
-      dataIndex: 'TrackingDetailSID',
+      key: 'TrackingDetailDate',
+      dataIndex: 'TrackingDetailDate',
       title: 'Date',
-      render: SIDTrackingDetailColumn,
+      render: DateTrackingDetailColumn,
     },
     {
-      key: 'TrackingDetailBattery',
-      dataIndex: 'TrackingDetailBattery',
+      key: 'TrackingDetailStatus',
+      dataIndex: 'TrackingDetailStatus',
       title: 'Status',
-      render: BatteryTrackingDetailColumn,
+      render: StatusTrackingDetailColumn,
     },
 
     {
@@ -129,7 +127,7 @@ export const AppTrackingDetailsTable = ({
     },
   ];
   return (
-    <AppDataGrid<TrackingDetail>
+    <AppDataGrid<PersonAlert>
       columns={columns}
       dataSource={items}
       itemKey="id"

@@ -19,25 +19,29 @@ import { AppToggleButton } from 'presentation/components/AppToggleButton';
 import AppSelect from 'presentation/components/AppSelect';
 import { useGetDeviceType } from 'modules/catalog/hooks/use-get-device-type';
 import { Formik } from 'formik';
-import { useSaveDevice } from '../../hooks/use-create-device';
 import * as Yup from 'yup';
 import { AppToast } from 'presentation/components/AppToast';
-export type AppNewDeviceModalProps = {
+import { useGetDeviceById } from '../../hooks/use-get-device-by-id';
+import { useUpdateDevice } from '../../hooks/use-update-device';
+export type AppEditDeviceModalProps = {
   isVisible: boolean;
   onClose: () => void;
   onReload: () => void;
+  idDevice?: number;
 };
 type DeviceCreateFormValues = {
   idDeviceType: number;
   description: string;
-  status: string;
+  // status: string;
 };
-export const AppNewDeviceModal = ({
+export const AppEditDeviceModal = ({
   isVisible,
   onClose,
   onReload,
-}: AppNewDeviceModalProps) => {
-  const { createDevice, error: errorSave, loading } = useSaveDevice();
+  idDevice,
+}: AppEditDeviceModalProps) => {
+  const { getDeviceById, device } = useGetDeviceById();
+  const { updateDevice, error: errorSave, loading } = useUpdateDevice();
   const { deviceType, getDeviceType } = useGetDeviceType();
   const [status, setStatus] = useState(false);
   const validationSchemaSaveDevice = Yup.object().shape({
@@ -47,21 +51,24 @@ export const AppNewDeviceModal = ({
       .required('Select device type'),
   });
   const onSubmitHandler = async (data: DeviceCreateFormValues) => {
-    await createDevice({
-      idDeviceType: Number(data.idDeviceType),
-      idStatus: status ? 1 : 0,
-      description: data.description,
-      status: status ? 'Active' : 'Inactive',
-    });
-    if (!errorSave) {
-      AppToast().fire({
-        title: 'Success',
-        text: 'Information saved successfully',
-        icon: 'success',
+    if (device) {
+      await updateDevice({
+        idDevice: device?.idDevice,
+        idDeviceType: Number(data.idDeviceType),
+        idStatus: status ? 1 : 0,
+        description: data.description,
+        status: status ? 'Active' : 'Inactive',
       });
+      if (!errorSave) {
+        AppToast().fire({
+          title: 'Success',
+          text: 'Information saved successfully',
+          icon: 'success',
+        });
+      }
+      onClose();
+      onReload();
     }
-    onClose();
-    onReload();
   };
   useEffect(() => {
     getDeviceType();
@@ -75,6 +82,12 @@ export const AppNewDeviceModal = ({
       });
     }
   }, [errorSave]);
+  useEffect(() => {
+    if (idDevice) getDeviceById({ idDevice: idDevice });
+    if (idDevice) {
+      setStatus(device?.idStatus === 1);
+    }
+  }, [idDevice]);
   return (
     <AppModal isVisible={isVisible} onClose={onClose} size="3xl">
       <AppModalOverlay>
@@ -82,17 +95,15 @@ export const AppNewDeviceModal = ({
           <Formik
             enableReinitialize
             initialValues={{
-              description: '',
-              idDeviceType: 0,
-              idStatus: 0,
-              status: '',
+              description: device?.description ? device.description : '',
+              idDeviceType: device?.idDeviceType ? device.idDeviceType : 0,
             }}
             onSubmit={onSubmitHandler}
             validationSchema={validationSchemaSaveDevice}
           >
             {({ handleSubmit, handleChange, values, errors }) => (
               <form onSubmit={handleSubmit}>
-                <AppModalHeader>New Device</AppModalHeader>
+                <AppModalHeader>Edit Device</AppModalHeader>
                 <AppModalBody>
                   <div className="grid grid-cols-12 gap-y-4 gap-x-3">
                     <AppFormField className="col-span-6">

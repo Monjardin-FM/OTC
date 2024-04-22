@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppBadge } from 'presentation/components/AppBadge';
 import {
   AppModal,
@@ -11,28 +11,45 @@ import {
 } from 'presentation/components/AppModal';
 import AppDatePicker from 'presentation/components/AppDatePicker';
 import { AppFormField } from 'presentation/components/AppForm';
+import { useGetDetailTracking } from '../../hooks/use-get-detail-tracking';
+import { useGetUsers } from 'modules/management-users/web/hooks/use-get-users';
+import { UserManage } from 'modules/management-users/domain/entities/userManage';
 import { AppTrackingDetailsTable } from '../tables/app-tracking-detail-table';
-import { TrackingDetail } from 'modules/tracking/domain/entities/tracking-detail';
+import { PersonAlert } from 'modules/tracking/domain/entities/tracking-detail';
 export type AppTrackingModalProps = {
   isVisible: boolean;
   onClose: () => void;
+  personId?: number | null;
 };
 export const AppTrackingModal = ({
   isVisible,
   onClose,
+  personId,
 }: AppTrackingModalProps) => {
-  const items: TrackingDetail[] = [
-    {
-      alarmType: 'Battery',
-      Date: '12/04/2024',
-      startus: 'Active',
-    },
-    {
-      alarmType: 'Position Timeout',
-      Date: '8/04/2024',
-      startus: 'Active',
-    },
-  ];
+  const { trackingDetail, getTrackingDetail } = useGetDetailTracking();
+  const { getUsers, users } = useGetUsers();
+  const [officer, setOfficer] = useState<UserManage[]>();
+  const [alertPerson, setAlertPerson] = useState<PersonAlert[]>();
+
+  useEffect(() => {
+    if (personId) {
+      getTrackingDetail({ personId: personId });
+      getUsers({ completeName: '' });
+    }
+  }, [personId]);
+  useEffect(() => {
+    if (trackingDetail) {
+      setAlertPerson(trackingDetail.personAlert);
+    }
+  }, [trackingDetail, personId]);
+  useEffect(() => {
+    if (users) {
+      const officerFilter = users.filter(
+        (item) => item.idPerson === trackingDetail?.person[0].idOfficer,
+      );
+      if (officerFilter) setOfficer(officerFilter);
+    }
+  }, [users]);
   return (
     <AppModal isVisible={isVisible} onClose={onClose} size="full">
       <AppModalOverlay>
@@ -41,14 +58,19 @@ export const AppTrackingModal = ({
             Tracking Info
             <div className="w-full flex flex-row items-center justify-center absolute top-4">
               <AppBadge colorScheme="warn">
-                Defendant Name: <b>Jhon Wats</b>{' '}
+                Defendant Name:{' '}
+                <b>{`${trackingDetail?.person[0].name} ${trackingDetail?.person[0].lastName} `}</b>{' '}
               </AppBadge>
               <AppBadge colorScheme="warn">
-                Phone: <b>202-555-0160</b>
+                Phone: <b>{}</b>
               </AppBadge>
               <AppBadge colorScheme="warn">
                 Officer:
-                <b>Christian</b>
+                <b>
+                  {officer
+                    ? ` ${officer[0]?.name} ${officer[0]?.lastName}`
+                    : ''}
+                </b>
               </AppBadge>
             </div>
             <AppModalCloseButton />
@@ -56,7 +78,7 @@ export const AppTrackingModal = ({
           <AppModalBody>
             <div className="w-full flex flex-col items-center justify-center gap-5">
               <div className="w-full flex flex-col items-center justify-center p-5 rounded-lg bg-gray-200">
-                <iframe
+                {/* <iframe
                   src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d187018.1427050245!2d-98.5066351750962!3d29.427286642312595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2smx!4v1713305015458!5m2!1ses-419!2smx"
                   width="100%"
                   height="500"
@@ -65,7 +87,7 @@ export const AppTrackingModal = ({
                   loading="lazy"
                   //   referrerpolicy="no-referrer-when-downgrade"
                   title="Map Tracking"
-                ></iframe>
+                ></iframe> */}
               </div>
               <div className="flex flex-col items-start justify-start gap-3 border">
                 <span className="font-bold ml-3 text-primary-700">
@@ -89,7 +111,10 @@ export const AppTrackingModal = ({
                 </div>
               </div>
               <div className="w-full">
-                <AppTrackingDetailsTable onEdit={() => {}} items={items} />
+                <AppTrackingDetailsTable
+                  onEdit={() => {}}
+                  items={alertPerson}
+                />
               </div>
             </div>
           </AppModalBody>

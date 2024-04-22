@@ -10,9 +10,7 @@ export const saveDeviceService: DeviceRepository['createDevice'] = async (
     headers: {
       Authorization: `Bearer ${token()}`,
     },
-    json: {
-      params,
-    },
+    json: params,
   });
   await verifyResponse({ response });
 };

@@ -90,7 +90,6 @@ export const AppNewAlarmModal = ({
   ) => {
     const idList: Omit<ResponseDevice, 'responseDevice'>[] =
       getIdResponse(selectedList);
-    console.log(idList);
     setSelectedResponseDevices(idList);
   };
   const onSelectDeviceType = (

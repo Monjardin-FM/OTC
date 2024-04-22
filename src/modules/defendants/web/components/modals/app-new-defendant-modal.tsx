@@ -1,39 +1,54 @@
-import React, { useState } from 'react';
-import { AppButton } from 'presentation/components/AppButton';
+import React, { useEffect, useState } from 'react';
 import {
   AppModal,
   AppModalBody,
   AppModalContent,
-  AppModalFooter,
   AppModalHeader,
   AppModalOverlay,
 } from 'presentation/components/AppModal';
 
-import {
-  AppTab,
-  AppTabList,
-  AppTabPanel,
-  AppTabPanels,
-  AppTabs,
-} from 'presentation/components/AppTabs';
 import { DefendantForm } from '../forms/defendant-form';
-import { AppFormField, AppFormLabel } from 'presentation/components/AppForm';
-import AppTextField from 'presentation/components/AppTextField';
 import { VictimForm } from '../forms/victim-form';
 import { AlarmForm } from '../forms/alarm-form';
-import { AppToggleButton } from 'presentation/components/AppToggleButton';
 import { ReferenceForm } from '../forms/reference-from';
 import { AppBadge } from 'presentation/components/AppBadge';
-
+import { useCreateDefendant } from '../../hooks/use-create-defendant';
+import { createDefendantParams } from 'modules/defendants/domain/repositories/defendant-repository';
+import { Tab } from '@headlessui/react';
+import { useGetDefendantsById } from '../../hooks/use-get-defendants-by-id';
+function classNames(...classes: any) {
+  return classes.filter(Boolean).join(' ');
+}
 export type AppNewDefendantModalProps = {
   isVisible: boolean;
   onClose: () => void;
 };
+
 export const AppNewDefendantModal = ({
   isVisible,
   onClose,
 }: AppNewDefendantModalProps) => {
-  const [selectedTab, setSelectedTab] = useState<number>(0);
+  const { createDefendant, value } = useCreateDefendant();
+  const [isCreatedDefendant, setIsCreatedDefendant] = useState(false);
+  const [idDefendant, setIdDefendant] = useState<number>();
+  const { getDefendantById, defendant } = useGetDefendantsById();
+
+  const onCreateDefendant = async (params: createDefendantParams) => {
+    const id = await createDefendant(params);
+    setIsCreatedDefendant(true);
+    if (id) setIdDefendant(id);
+    console.log(params);
+    console.log(id);
+  };
+
+  useEffect(() => {
+    // console.log(createDefendant);
+    setIdDefendant(value);
+    console.log(value);
+  }, [value]);
+  useEffect(() => {
+    if (idDefendant) getDefendantById({ idPerson: idDefendant });
+  }, [idDefendant]);
   return (
     <AppModal isVisible={isVisible} onClose={onClose} size="full">
       <AppModalOverlay>
@@ -42,58 +57,97 @@ export const AppNewDefendantModal = ({
             <div className="flex flex-row items-center justify-evenly gap-5 ">
               <span>New Defendant</span>
               <span>
-                <AppBadge colorScheme="warn">Defendant Name:</AppBadge>
+                <AppBadge colorScheme="warn">
+                  Defendant Name: {`${defendant?.name} ${defendant?.lastName} `}{' '}
+                </AppBadge>
               </span>
               <span>
-                <AppBadge colorScheme="warn">SID:</AppBadge>
+                <AppBadge colorScheme="warn">SID: {defendant?.sid}</AppBadge>
               </span>
             </div>
           </AppModalHeader>
           <AppModalBody>
-            <div className="w-full grid grid-cols-3 items-center justify-center mb-3 gap-4">
-              <AppFormField className="col-span-1">
-                <AppFormLabel>Officer</AppFormLabel>
-                <AppTextField />
-              </AppFormField>
-              <AppFormField className="col-span-1">
-                <AppFormLabel>Status</AppFormLabel>
-                <div className="flex flex-row items-center justify-start gap-3">
-                  <span>Inactive</span>
-                  <AppToggleButton></AppToggleButton>
-                  <span>Active</span>
-                </div>
-              </AppFormField>
+            <div className="w-full px-2 py-16">
+              <Tab.Group>
+                <Tab.List className="flex space-x-1 rounded-xl border border-primary-100 p-1">
+                  <Tab
+                    className={({ selected }) =>
+                      classNames(
+                        'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                        'ring-white ring-offset-2 ring-offset-info-100 focus:outline-none focus:ring-2',
+                        selected
+                          ? 'bg-info-500 text-white shadow'
+                          : 'text-info-600 hover:bg-white hover:text-info-600 transition-all duration-150',
+                      )
+                    }
+                  >
+                    Defendant
+                  </Tab>
+                  <Tab
+                    disabled={!isCreatedDefendant}
+                    className={({ selected }) =>
+                      classNames(
+                        'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                        'ring-white ring-offset-2 ring-offset-info-100 focus:outline-none focus:ring-2',
+                        selected
+                          ? 'bg-info-500 text-white shadow'
+                          : 'text-info-600 hover:bg-white hover:text-info-600 transition-all duration-150',
+                      )
+                    }
+                  >
+                    Victims
+                  </Tab>
+                  <Tab
+                    disabled={!isCreatedDefendant}
+                    className={({ selected }) =>
+                      classNames(
+                        'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                        'ring-white ring-offset-2 ring-offset-info-100 focus:outline-none focus:ring-2',
+                        selected
+                          ? 'bg-info-500 text-white shadow'
+                          : 'text-info-600 hover:bg-white hover:text-info-600 transition-all duration-150',
+                      )
+                    }
+                  >
+                    Alarms
+                  </Tab>
+                  <Tab
+                    disabled={!isCreatedDefendant}
+                    className={({ selected }) =>
+                      classNames(
+                        'w-full rounded-lg py-2.5 text-sm font-medium leading-5',
+                        'ring-white ring-offset-2 ring-offset-info-100 focus:outline-none focus:ring-2',
+                        selected
+                          ? 'bg-info-500 text-white shadow'
+                          : 'text-info-600 hover:bg-white hover:text-info-600 transition-all duration-150',
+                      )
+                    }
+                  >
+                    Reference Contacts
+                  </Tab>
+                </Tab.List>
+                <Tab.Panels>
+                  <Tab.Panel>
+                    <DefendantForm
+                      onCreateDefendant={onCreateDefendant}
+                      onClose={onClose}
+                      isCreatedDefendant={isCreatedDefendant}
+                      idDefendant={idDefendant}
+                    />
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    <VictimForm />
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    <AlarmForm />
+                  </Tab.Panel>
+                  <Tab.Panel>
+                    <ReferenceForm />
+                  </Tab.Panel>
+                </Tab.Panels>
+              </Tab.Group>
             </div>
-            <AppTabs
-              index={selectedTab}
-              onChange={(index) => setSelectedTab(index)}
-            >
-              <AppTabList>
-                <AppTab>Defendant</AppTab>
-                <AppTab>Victims</AppTab>
-                <AppTab>Alarms</AppTab>
-                <AppTab>Reference Contacts</AppTab>
-              </AppTabList>
-              <AppTabPanels>
-                <AppTabPanel>
-                  <DefendantForm />
-                </AppTabPanel>
-                <AppTabPanel>
-                  <VictimForm />
-                </AppTabPanel>
-                <AppTabPanel>
-                  <AlarmForm />
-                </AppTabPanel>
-                <AppTabPanel>
-                  <ReferenceForm />
-                </AppTabPanel>
-              </AppTabPanels>
-            </AppTabs>
           </AppModalBody>
-          <AppModalFooter>
-            <AppButton onClick={onClose}>Cancel</AppButton>
-            <AppButton colorScheme="primary">Save</AppButton>
-          </AppModalFooter>
         </AppModalContent>
       </AppModalOverlay>
     </AppModal>

@@ -9,9 +9,10 @@ export const createDefendantService: DefendantRepository['createDefendant'] =
       headers: {
         Authorization: `Bearer ${token()}`,
       },
-      json: {
-        params,
-      },
+      json: params,
     });
-    await verifyResponse({ response });
+
+    const { body } = await verifyResponse({ response });
+    const id: number = body.data || 0;
+    return id;
   };

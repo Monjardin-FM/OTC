@@ -79,11 +79,19 @@ const CaseNumberDefendantColumn = (params: RenderFnParams<Defendant>) => {
 
 const StatusDefendantColumn = (params: RenderFnParams<Defendant>) => {
   return (
-    <AppBadge>
-      <div className="font-semibold text-sm text-primary-600 tracking-wider">
-        {params.record.idStatus}
-      </div>
-    </AppBadge>
+    <div className="font-medium text-sm">
+      {params.record.idStatus === 1 ? (
+        <div className="bg-success-300 rounded-lg p-2 text-success-600 group relative inline-block text-center">
+          <Icon.Circle size={18} />
+          <AppTooltip>Active</AppTooltip>
+        </div>
+      ) : (
+        <div className="bg-danger-300 rounded-lg p-2 text-danger-600  group relative inline-block text-center">
+          <Icon.AlertTriangle size={18} />
+          <AppTooltip>Inactive</AppTooltip>
+        </div>
+      )}
+    </div>
   );
 };
 

@@ -14,7 +14,6 @@ export const getUsersService: UserManageRepository['getUsers'] = async (
     },
     searchParams: params,
   });
-  console.log(response);
   const { body } = await verifyResponse({ response });
   const data = body.data as any[];
 

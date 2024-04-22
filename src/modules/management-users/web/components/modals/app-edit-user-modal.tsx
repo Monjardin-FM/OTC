@@ -146,6 +146,7 @@ export const AppEditUserModal = ({
                         name="eMail"
                         value={values.eMail}
                         onChange={handleChange}
+                        disabled
                       />
                     </AppFormField>
                     <AppFormField className="col-span-6">
@@ -199,6 +200,7 @@ export const AppEditUserModal = ({
                         name="password"
                         onChange={handleChange}
                         value={values.password}
+                        type="password"
                       />
                     </AppFormField>
                     <AppFormField className="col-span-6">

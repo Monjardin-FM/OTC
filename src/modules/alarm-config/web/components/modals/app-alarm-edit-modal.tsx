@@ -75,13 +75,9 @@ export const AppEditAlarmModal = ({
     onClose();
   };
   const onSelectResponseDevices = (selectedList: [], selectedItems: []) => {
-    console.log(selectedList);
-    console.log(selectedItems);
-
     setSelectedResponseDevices(selectedList);
   };
   const onSelectDeviceType = (selectedList: [], selectedItems: []) => {
-    console.log(selectedList);
     setSelectedDeviceType(selectedList);
   };
   useEffect(() => {
@@ -120,7 +116,6 @@ export const AppEditAlarmModal = ({
           >
             {({ handleSubmit, handleChange, values }) => (
               <form onSubmit={handleSubmit}>
-                {console.log(values)}
                 <AppModalHeader>Edit Alarm</AppModalHeader>
                 <AppModalBody>
                   <div className="grid grid-cols-12 gap-y-4 gap-x-3">

@@ -5,14 +5,12 @@ import { token } from 'utils/token';
 
 export const getDefendantByIdService: DefendantRepository['getDefendantById'] =
   async (params) => {
-    const response = await api().get(`Defendant/id/${params.idPerson}`, {
+    const response = await api().get(`Defendant/Id/${params.idPerson}`, {
       headers: {
         Authorization: `Bearer ${token()}`,
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/json',
       },
-      json: {
-        completeName: params.completeName,
-      },
+      // body: JSON.stringify({ completeName: params.completeName }),
     });
     const { body } = await verifyResponse({ response });
     const data = body.data as any;

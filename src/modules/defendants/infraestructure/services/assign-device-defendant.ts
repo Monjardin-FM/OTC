@@ -3,13 +3,14 @@ import { api } from 'utils/api';
 import { verifyResponse } from 'utils/check-response';
 import { token } from 'utils/token';
 
-export const updateDefendantService: DefendantRepository['updateDefendant'] =
+export const assignDeviceDefendantService: DefendantRepository['assignDeviceDefendant'] =
   async (params) => {
-    const response = await api().put('Defendant', {
+    const response = await api().post('PersonDevice', {
       headers: {
         Authorization: `Bearer ${token()}`,
       },
       json: params,
     });
+
     await verifyResponse({ response });
   };

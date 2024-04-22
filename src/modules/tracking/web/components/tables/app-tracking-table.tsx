@@ -8,7 +8,6 @@ import {
   RenderFnParams,
 } from 'presentation/components/AppDataGrid';
 import { UIColorScheme } from 'presentation/types/ui-color-schema';
-import { AppBadge } from 'presentation/components/AppBadge';
 import { AppButton } from 'presentation/components/AppButton';
 import { AppTooltip } from 'presentation/components/AppTooltip';
 export type TrackingsTableProps = {
@@ -39,31 +38,31 @@ const NameTrackingColumn = (params: RenderFnParams<Tracking>) => {
             length: params.record.name.length,
           })}
         >
-          <Icon.User size={20} />
+          <Icon.MapPin size={20} />
         </AppAvatar>
       </div>
       <div className="font-semibold text-sm text-primary-700 tracking-wider">
-        {params.record.name}
+        {`${params.record.name} ${params.record.lastName}`}
       </div>
     </div>
   );
 };
-const SIDTrackingColumn = (params: RenderFnParams<Tracking>) => {
-  return (
-    <div className="flex items-center space-x-3">
-      <AppBadge colorScheme="info">
-        <div className="font-semibold text-sm text-primary-600 tracking-wider">
-          {params.record.SID}
-        </div>
-      </AppBadge>
-    </div>
-  );
-};
+// const SIDTrackingColumn = (params: RenderFnParams<Tracking>) => {
+//   return (
+//     <div className="flex items-center space-x-3">
+//       <AppBadge colorScheme="info">
+//         <div className="font-semibold text-sm text-primary-600 tracking-wider">
+//           {params.record.name}
+//         </div>
+//       </AppBadge>
+//     </div>
+//   );
+// };
 const BatteryTrackingColumn = (params: RenderFnParams<Tracking>) => {
   return (
     <div className="flex items-center space-x-3">
       <div className="font-semibold tracking-wider">
-        {params.record.Battery ? (
+        {params.record.name ? (
           <div className="bg-success-300 rounded-lg p-2 text-success-600">
             <Icon.Circle size={18} />
           </div>
@@ -77,10 +76,13 @@ const BatteryTrackingColumn = (params: RenderFnParams<Tracking>) => {
   );
 };
 const PositionTrackingColumn = (params: RenderFnParams<Tracking>) => {
+  const positionTimeout = params.record.alerts.find(
+    (alert) => alert.alarmName === 'Position Timeout',
+  );
   return (
     <div className="flex items-center space-x-3">
       <div className="font-semibold tracking-wider">
-        {params.record.position ? (
+        {positionTimeout && positionTimeout.seqMachineState ? (
           <div className="bg-success-300 rounded-lg p-2 text-success-600">
             <Icon.Circle size={18} />
           </div>
@@ -98,7 +100,7 @@ const PerimeterTrackingColumn = (params: RenderFnParams<Tracking>) => {
   return (
     <div className="flex items-center space-x-3">
       <div className="font-semibold tracking-wider">
-        {params.record.position ? (
+        {params.record.name ? (
           <div className="bg-success-300 rounded-lg p-2 text-success-600">
             <Icon.Circle size={18} />
           </div>
@@ -115,7 +117,7 @@ const TamperingTrackingColumn = (params: RenderFnParams<Tracking>) => {
   return (
     <div className="flex items-center space-x-3">
       <div className="font-semibold tracking-wider">
-        {params.record.position ? (
+        {params.record.name ? (
           <div className="bg-success-300 rounded-lg p-2 text-success-600">
             <Icon.Circle size={18} />
           </div>
@@ -165,12 +167,12 @@ export const AppTrackingsTable = ({
       title: 'Name',
       render: NameTrackingColumn,
     },
-    {
-      key: 'TrackingSID',
-      dataIndex: 'TrackingSID',
-      title: 'SID',
-      render: SIDTrackingColumn,
-    },
+    // {
+    //   key: 'TrackingSID',
+    //   dataIndex: 'TrackingSID',
+    //   title: 'SID',
+    //   render: SIDTrackingColumn,
+    // },
     {
       key: 'TrackingBattery',
       dataIndex: 'TrackingBattery',

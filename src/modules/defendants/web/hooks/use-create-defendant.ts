@@ -3,10 +3,11 @@ import { createDefendantService } from 'modules/defendants/infraestructure/servi
 import { useAsyncFn } from 'react-use';
 
 export const useCreateDefendant = () => {
-  const [{ loading, error }, createDefendant] = useAsyncFn<
+  const [{ value, loading, error }, createDefendant] = useAsyncFn<
     DefendantRepository['createDefendant']
   >(createDefendantService, [createDefendantService]);
   return {
+    value,
     createDefendant,
     loading,
     error,

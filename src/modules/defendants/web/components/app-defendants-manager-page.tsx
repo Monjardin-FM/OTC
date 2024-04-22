@@ -11,12 +11,16 @@ import { useToggle } from 'react-use';
 import { AppDefendantsTable } from './tables/app-defendants-table';
 import { AppNewDefendantModal } from './modals/app-new-defendant-modal';
 import { useGetDefendants } from '../hooks/use-get-defendants';
+import { AppLoading } from 'presentation/components/AppLoading';
+// import { useGetDefendantsById } from '../hooks/use-get-defendants-by-id';
 export const AppDefendantsManagerPage = () => {
   const { defendants, getDefendants } = useGetDefendants();
+  // const { defendant, getDefendantById } = useGetDefendantsById();
   const [visibleNewDefendantModal, setVisibleNewDefendantModal] =
     useToggle(false);
   useEffect(() => {
     getDefendants({ completeName: '' });
+    // getDefendantById({ idPerson: 6 });
   }, []);
   return (
     <AppAuthorizationGuard
@@ -25,6 +29,7 @@ export const AppDefendantsManagerPage = () => {
       }
       redirect={{ to: '/' }}
     >
+      {!defendants && <AppLoading />}
       <AppNewDefendantModal
         isVisible={visibleNewDefendantModal}
         onClose={() => setVisibleNewDefendantModal(false)}

@@ -1,9 +1,15 @@
+export type AlertsTracking = {
+  timestamp: string;
+  alarmName: string;
+  device1Latitude: number;
+  device1Longitude: number;
+  seqMachineState: boolean;
+  personId: number;
+};
+
 export type Tracking = {
-  idTracking: number;
+  personId: number;
   name: string;
-  SID: number;
-  Battery: boolean;
-  position: boolean;
-  perimeter: boolean;
-  tampering: boolean;
+  lastName: string;
+  alerts: AlertsTracking[];
 };

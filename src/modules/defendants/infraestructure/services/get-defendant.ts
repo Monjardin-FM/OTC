@@ -10,7 +10,7 @@ export const getDefendantsService: DefendantRepository['getDefendant'] = async (
   const response = await api().get(`Defendant`, {
     headers: {
       Authorization: `Bearer ${token()}`,
-      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/json',
     },
     searchParams: params,
   });

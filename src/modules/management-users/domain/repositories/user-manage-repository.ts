@@ -22,6 +22,7 @@ export type UserManageRepository = {
     idStatus: number;
     password: string;
     idRole: number;
+    phone: string;
   }): Promise<void>;
   updateUser(params: {
     idPerson: number;

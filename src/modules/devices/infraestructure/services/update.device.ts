@@ -10,7 +10,7 @@ export const updateDeviceService: DeviceRepository['updateDevice'] = async (
     headers: {
       Authorization: `Bearer ${token()}`,
     },
-    json: { params },
+    json: params,
   });
   await verifyResponse({ response });
 };

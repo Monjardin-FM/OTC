@@ -39,7 +39,7 @@ export const AppUserAuthForm = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit} className="w-full">
       <AppFormField className="mt-7" isRequired>
         <AppFormLabel textColor="black" htmlFor="email">
           Email

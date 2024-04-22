@@ -14,6 +14,7 @@ import { useGetUsers } from '../hooks/use-get-users';
 import { AppToast } from 'presentation/components/AppToast';
 import { AppEditUserModal } from './modals/app-edit-user-modal';
 import { useDeleteUser } from '../hooks/use-delete-user';
+import { AppLoading } from 'presentation/components/AppLoading';
 export const ManagementUsersManagerPage = () => {
   const [visibleNewUserModal, setVisibleNewUserModal] = useToggle(false);
   const [visibleEditUserModal, setVisibleEditUserModal] = useToggle(false);
@@ -46,6 +47,7 @@ export const ManagementUsersManagerPage = () => {
       }
       redirect={{ to: '/' }}
     >
+      {!users && <AppLoading />}
       <AppNewUserModal
         isVisible={visibleNewUserModal}
         onClose={() => setVisibleNewUserModal(false)}

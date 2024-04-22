@@ -16,6 +16,8 @@ export type DevicessTableProps = {
   // onUpdateClient: (data: Client) => void;
   items?: Device[];
   onEdit: (params: RenderFnParams<Device>) => void;
+  onDelete: (params: RenderFnParams<Device>) => void;
+
   // onNotification: (params: RenderFnParams<UserManage>) => void;
   // onUpdateAlmacen: (params: RenderFnParams<UserManage>) => void;
 };
@@ -54,9 +56,19 @@ const NameDevicesColumn = (params: RenderFnParams<Device>) => {
 
 const StatusDevicesColumn = (params: RenderFnParams<Device>) => {
   return (
-    <AppBadge colorScheme="primary">
-      <div className="font-medium text-sm">{params.record.idStatus}</div>
-    </AppBadge>
+    <div className="font-medium text-sm">
+      {params.record.idStatus === 1 ? (
+        <div className="bg-success-300 rounded-lg p-2 text-success-600 group relative inline-block text-center">
+          <Icon.Circle size={18} />
+          <AppTooltip>Active</AppTooltip>
+        </div>
+      ) : (
+        <div className="bg-danger-300 rounded-lg p-2 text-danger-600  group relative inline-block text-center">
+          <Icon.AlertTriangle size={18} />
+          <AppTooltip>Inactive</AppTooltip>
+        </div>
+      )}
+    </div>
   );
 };
 const NumberDevicesColumn = (params: RenderFnParams<Device>) => {
@@ -72,8 +84,10 @@ const NumberDevicesColumn = (params: RenderFnParams<Device>) => {
 const ActionsColumn = ({
   onEdit,
   record,
+  onDelete,
 }: RenderFnParams<Device> & {
   onEdit: () => void;
+  onDelete: () => void;
 }) => {
   return (
     <div className="flex flex-row items-center justify-start gap-8">
@@ -93,7 +107,7 @@ const ActionsColumn = ({
       <div className="group relative inline-block text-center">
         <AppButton
           onClick={() => {
-            onEdit();
+            onDelete();
           }}
           title="Delete Device"
           size="sm"
@@ -110,6 +124,7 @@ const ActionsColumn = ({
 export const AppDevicessTable = ({
   items = [],
   onEdit,
+  onDelete,
 }: DevicessTableProps) => {
   const columns: AppDataGridColumn<Device>[] = [
     {
@@ -140,6 +155,9 @@ export const AppDevicessTable = ({
           ...data,
           onEdit: () => {
             onEdit(data);
+          },
+          onDelete: () => {
+            onDelete(data);
           },
         }),
     },

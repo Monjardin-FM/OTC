@@ -37,6 +37,7 @@ type UserCreateFormValues = {
   county: number;
   gender: number;
   password: string;
+  phone: string;
 };
 export const AppNewUserModal = ({
   isVisible,
@@ -73,6 +74,7 @@ export const AppNewUserModal = ({
       idRole: Number(data.role),
       idStatus: status ? 1 : 0,
       password: data.password,
+      phone: data.phone,
     });
     if (!errorSave) {
       AppToast().fire({
@@ -112,13 +114,14 @@ export const AppNewUserModal = ({
               county: 0,
               gender: 0,
               password: '',
+              phone: '',
             }}
             onSubmit={onSubmitHandler}
             validationSchema={validationSchemaSaveUser}
           >
             {({ handleSubmit, handleChange, values, errors }) => (
               <form autoComplete="off" onSubmit={handleSubmit}>
-                <AppModalHeader>Edit User</AppModalHeader>
+                <AppModalHeader>New User</AppModalHeader>
                 <AppModalBody>
                   <div className="grid grid-cols-12 gap-y-4 gap-x-3">
                     <AppFormField className="col-span-6">
@@ -221,11 +224,25 @@ export const AppNewUserModal = ({
                       )}
                     </AppFormField>
                     <AppFormField className="col-span-6">
+                      <AppFormLabel>Phone Number</AppFormLabel>
+                      <AppTextField
+                        name="phone"
+                        onChange={handleChange}
+                        value={values.phone}
+                      />
+                      {/* {errors.password && (
+                        <AppFormHelperText colorSchema="danger">
+                          {errors.password}
+                        </AppFormHelperText>
+                      )} */}
+                    </AppFormField>
+                    <AppFormField className="col-span-6">
                       <AppFormLabel>Password</AppFormLabel>
                       <AppTextField
                         name="password"
                         onChange={handleChange}
                         value={values.password}
+                        type="password"
                       />
                       {errors.password && (
                         <AppFormHelperText colorSchema="danger">

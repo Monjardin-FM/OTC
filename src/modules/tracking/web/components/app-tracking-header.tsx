@@ -17,7 +17,7 @@ export const AppTrackingHeader = () => {
         </h1>
         <div className="w-2/3 flex flex-row items-center bg-white rounded-lg ">
           <AppTextField
-            placeholder="Name, SID"
+            placeholder="Name"
             type="text"
             onChange={(e) => {
               //   setSearchUser(e.target.value);

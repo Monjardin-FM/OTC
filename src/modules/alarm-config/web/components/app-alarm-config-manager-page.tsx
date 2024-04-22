@@ -13,6 +13,7 @@ import { AppAlarmssTable } from './tables/app-alarm-table';
 import { useGetAlarms } from '../hooks/use-get-alarms';
 import { AppEditAlarmModal } from './modals/app-alarm-edit-modal';
 import { useDeleteAlarm } from '../hooks/use-delete-alarm';
+import { AppLoading } from 'presentation/components/AppLoading';
 
 export const AppAlarmConfigManagerPage = () => {
   const [visibleNewAlarmModal, setVisibleNewAlarmModal] = useToggle(false);
@@ -33,6 +34,7 @@ export const AppAlarmConfigManagerPage = () => {
       }
       redirect={{ to: '/' }}
     >
+      {!alarms && <AppLoading />}
       <AppNewAlarmModal
         isVisible={visibleNewAlarmModal}
         onClose={() => setVisibleNewAlarmModal(false)}
