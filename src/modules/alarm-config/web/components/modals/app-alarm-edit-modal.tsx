@@ -44,6 +44,9 @@ export const AppEditAlarmModal = ({
 }: AppEditAlarmModalProps) => {
   const { updateAlarm } = useUpdateAlarm();
   const { responsiveDevices, getResponsiveDevices } = useGetResponsiveDevices();
+  const [selectedResponseDefault, setSelectedResponseDefault] =
+    useState<ResponseDevice>();
+  console.log(setSelectedResponseDefault);
   const { deviceType, getDeviceType } = useGetDeviceType();
   const { alarm, getAlarmById } = useGetAlarmById();
   const [selectedResponseDevicesValues, setSelectedResponseDevices] = useState<
@@ -80,6 +83,28 @@ export const AppEditAlarmModal = ({
   const onSelectDeviceType = (selectedList: [], selectedItems: []) => {
     setSelectedDeviceType(selectedList);
   };
+  // function hacerMatch(
+  //   primerConjunto: Omit<ResponseDevice, 'responseDevice'>[],
+  //   segundoConjunto: ResponseDevice[],
+  // ): ResponseDevice[] {
+  //   return primerConjunto.map((obj) => {
+  //     const matchedObj = segundoConjunto.find(
+  //       (item) => item.idResponseDevice === obj.idResponseDevice,
+  //     );
+  //     if (matchedObj) {
+  //       return {
+  //         idResponseDevice: obj.idResponseDevice,
+  //         responseDevice: matchedObj.responseDevice,
+  //       };
+  //     } else {
+  //       // Manejar el caso donde no se encuentre un objeto coincidente
+  //       return {
+  //         idResponseDevice: obj.idResponseDevice,
+  //         responseDevice: 'Sin coincidencia',
+  //       };
+  //     }
+  //   });
+  // }
   useEffect(() => {
     if (idAlarm) getAlarmById({ idAlarmType: idAlarm });
     getResponsiveDevices();
@@ -88,9 +113,15 @@ export const AppEditAlarmModal = ({
   useEffect(() => {
     if (alarm) {
       setSelectedResponseDevices(alarm.lResponseDevice);
+      // const selected = hacerMatch(
+      //   selectedResponseDevicesValues,
+      //   responsiveDevices ? responsiveDevices : [],
+      // );
+      // console.log(selected);
+      // if (selected) setSelectedResponseDefault(selected);
       setStatus(alarm?.automatic);
     }
-  }, [idAlarm]);
+  }, [idAlarm, alarm]);
   return (
     <AppModal isVisible={isVisible} onClose={onClose} size="7xl">
       <AppModalOverlay>
@@ -155,6 +186,7 @@ export const AppEditAlarmModal = ({
                       <AppFormField className="col-span-6">
                         <AppFormLabel>Response Devices</AppFormLabel>
                         <Multiselect
+                          selectedValues={selectedResponseDefault}
                           displayValue="responseDevice"
                           showCheckbox={true}
                           options={responsiveDevices}

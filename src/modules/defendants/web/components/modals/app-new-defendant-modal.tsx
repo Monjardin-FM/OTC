@@ -58,7 +58,10 @@ export const AppNewDefendantModal = ({
               <span>New Defendant</span>
               <span>
                 <AppBadge colorScheme="warn">
-                  Defendant Name: {`${defendant?.name} ${defendant?.lastName} `}{' '}
+                  Defendant Name:{' '}
+                  {defendant
+                    ? `${defendant?.name} ${defendant?.lastName} `
+                    : ''}
                 </AppBadge>
               </span>
               <span>

@@ -91,7 +91,7 @@ export const DefendantForm = ({
       offense: data.offense,
       password: data.password,
       sid: data.sid,
-      birthDate: dayjs(birthDate).format('YYYY/MM/DD'),
+      birthDate: dayjs(birthDate).format('YYYY-MM-DD'),
     });
   };
 
@@ -327,23 +327,23 @@ export const DefendantForm = ({
             colorScheme="primary"
             leftIcon={<Icon.PlusCircle size={18} />}
             onClick={() => {
-              setVisibleAddressForm(true);
-              setVisibleDeviceForm(false);
-              setVisiblePhoneForm(false);
-            }}
-          >
-            New Address
-          </AppButton>
-          <AppButton
-            colorScheme="primary"
-            leftIcon={<Icon.PlusCircle size={18} />}
-            onClick={() => {
               setVisibleDeviceForm(true);
               setVisibleAddressForm(false);
               setVisiblePhoneForm(false);
             }}
           >
             New Device
+          </AppButton>
+          <AppButton
+            colorScheme="primary"
+            leftIcon={<Icon.PlusCircle size={18} />}
+            onClick={() => {
+              setVisibleAddressForm(true);
+              setVisibleDeviceForm(false);
+              setVisiblePhoneForm(false);
+            }}
+          >
+            New Address
           </AppButton>
           <AppButton
             colorScheme="primary"
