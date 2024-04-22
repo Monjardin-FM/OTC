@@ -25,11 +25,13 @@ import * as Yup from 'yup';
 import { useGetCounties } from 'modules/management-users/web/hooks/use-get-county';
 import dayjs from 'dayjs';
 import { Disclosure } from '@headlessui/react';
+import { AppToast } from 'presentation/components/AppToast';
 export type DefendantFormProps = {
   onCreateDefendant: (params: createDefendantParams) => void;
   onClose: () => void;
   isCreatedDefendant: boolean;
   idDefendant?: number;
+  loadingDefendant: boolean;
 };
 
 type createDefendantFormValue = {
@@ -38,7 +40,7 @@ type createDefendantFormValue = {
   email: string;
   caseNumber: string;
   gender: number;
-  county: number;
+  // county: number;
   sid: string;
   offense: string;
   password: string;
@@ -48,6 +50,7 @@ export const DefendantForm = ({
   onCreateDefendant,
   onClose,
   isCreatedDefendant,
+  loadingDefendant,
   idDefendant,
 }: DefendantFormProps) => {
   const [visibleDeviceForm, setVisibleDeviceForm] = useToggle(false);
@@ -58,7 +61,10 @@ export const DefendantForm = ({
   const { genders, getGenders } = useGetGenders();
   const { counties, getCounties } = useGetCounties();
   const [chiefs, setChiefs] = useState<{ value: number; label: string }[]>();
+  const [countiesFilter, setCountiesFilter] =
+    useState<{ value: number; label: string }[]>();
   const [idOfficer, setIdOfficer] = useState<number>();
+  const [idCounty, setIdCounty] = useState<number>();
   const [statusOfficer, setStatusOfficer] = useState(false);
   const [birthDate, setBirthDate] = useState<Date>(new Date());
   const validationSchemaDefendant = Yup.object().shape({
@@ -68,9 +74,6 @@ export const DefendantForm = ({
     gender: Yup.number()
       .moreThan(0, 'Select a gender')
       .required('Select a gender'),
-    county: Yup.number()
-      .moreThan(0, 'Select a county')
-      .required('Select a County'),
     password: Yup.string().required('Required password'),
     caseNumber: Yup.string().required('Required case number'),
     sid: Yup.string().required('Required sid'),
@@ -84,7 +87,7 @@ export const DefendantForm = ({
       completeName: `${data.name} ${data.lastName}`,
       eMail: data.email,
       caseNumber: data.caseNumber,
-      idCounty: Number(data.county),
+      idCounty: Number(idCounty),
       idGender: Number(data.gender),
       idOfficer: Number(idOfficer),
       idStatus: statusOfficer ? 1 : 0,
@@ -110,8 +113,24 @@ export const DefendantForm = ({
         })),
       );
     }
-  }, [users]);
-
+    if (counties) {
+      setCountiesFilter(
+        counties.map((item) => ({
+          value: item.idCounty,
+          label: item.county,
+        })),
+      );
+    }
+  }, [users, counties]);
+  useEffect(() => {
+    if (loadingDefendant) {
+      AppToast().fire({
+        title: 'Creating Defendant',
+        icon: 'info',
+        text: 'Creating defendant. Please wait',
+      });
+    }
+  }, [loadingDefendant]);
   return (
     <>
       <Formik
@@ -209,23 +228,12 @@ export const DefendantForm = ({
                 </AppFormField>
                 <AppFormField className="col-span-2">
                   <AppFormLabel>County</AppFormLabel>
-                  <AppSelect
+                  <Select
                     name="county"
-                    value={values.county}
-                    onChange={handleChange}
-                  >
-                    <option value="">Select County</option>
-                    {counties?.map((county) => (
-                      <option key={county.idCounty} value={county.idCounty}>
-                        {county.county}
-                      </option>
-                    ))}
-                  </AppSelect>
-                  {errors.county && (
-                    <AppFormHelperText colorSchema="danger">
-                      {errors.county}
-                    </AppFormHelperText>
-                  )}
+                    options={countiesFilter}
+                    isSearchable={true}
+                    onChange={(e) => setIdCounty(e?.value)}
+                  />
                 </AppFormField>
                 <AppFormField className="col-span-2">
                   <AppFormLabel>Case Number</AppFormLabel>
@@ -313,7 +321,12 @@ export const DefendantForm = ({
               </div>
               <div className="col-span-12 flex flex-row items-center justify-end gap-3 ">
                 <AppButton onClick={onClose}>Cancel</AppButton>
-                <AppButton colorScheme="primary" type="submit">
+                <AppButton
+                  colorScheme="primary"
+                  type="submit"
+                  isLoading={loadingDefendant}
+                  isDisabled={loadingDefendant}
+                >
                   Create Defendant
                 </AppButton>
               </div>
@@ -321,43 +334,44 @@ export const DefendantForm = ({
           </form>
         )}
       </Formik>
-      {isCreatedDefendant && (
-        <div className="col-span-12 flex flex-row items-center justify-start gap-3 mt-5">
-          <AppButton
-            colorScheme="primary"
-            leftIcon={<Icon.PlusCircle size={18} />}
-            onClick={() => {
-              setVisibleDeviceForm(true);
-              setVisibleAddressForm(false);
-              setVisiblePhoneForm(false);
-            }}
-          >
-            New Device
-          </AppButton>
-          <AppButton
-            colorScheme="primary"
-            leftIcon={<Icon.PlusCircle size={18} />}
-            onClick={() => {
-              setVisibleAddressForm(true);
-              setVisibleDeviceForm(false);
-              setVisiblePhoneForm(false);
-            }}
-          >
-            New Address
-          </AppButton>
-          <AppButton
-            colorScheme="primary"
-            leftIcon={<Icon.PlusCircle size={18} />}
-            onClick={() => {
-              setVisiblePhoneForm(true);
-              setVisibleDeviceForm(false);
-              setVisibleAddressForm(false);
-            }}
-          >
-            New Phone Number
-          </AppButton>
-        </div>
-      )}
+      {idDefendant ||
+        (true && (
+          <div className="col-span-12 flex flex-row items-center justify-start gap-3 mt-5">
+            <AppButton
+              colorScheme="primary"
+              leftIcon={<Icon.PlusCircle size={18} />}
+              onClick={() => {
+                setVisibleDeviceForm(true);
+                setVisibleAddressForm(false);
+                setVisiblePhoneForm(false);
+              }}
+            >
+              New Device
+            </AppButton>
+            <AppButton
+              colorScheme="primary"
+              leftIcon={<Icon.PlusCircle size={18} />}
+              onClick={() => {
+                setVisibleAddressForm(true);
+                setVisibleDeviceForm(false);
+                setVisiblePhoneForm(false);
+              }}
+            >
+              New Address
+            </AppButton>
+            <AppButton
+              colorScheme="primary"
+              leftIcon={<Icon.PlusCircle size={18} />}
+              onClick={() => {
+                setVisiblePhoneForm(true);
+                setVisibleDeviceForm(false);
+                setVisibleAddressForm(false);
+              }}
+            >
+              New Phone Number
+            </AppButton>
+          </div>
+        ))}
       {visibleDeviceForm && (
         <div className="col-span-12">
           <DeviceForm

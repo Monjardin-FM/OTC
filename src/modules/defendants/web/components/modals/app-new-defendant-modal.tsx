@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   AppModal,
   AppModalBody,
+  AppModalCloseButton,
   AppModalContent,
   AppModalHeader,
   AppModalOverlay,
@@ -16,35 +17,47 @@ import { useCreateDefendant } from '../../hooks/use-create-defendant';
 import { createDefendantParams } from 'modules/defendants/domain/repositories/defendant-repository';
 import { Tab } from '@headlessui/react';
 import { useGetDefendantsById } from '../../hooks/use-get-defendants-by-id';
+import { AppToast } from 'presentation/components/AppToast';
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(' ');
 }
 export type AppNewDefendantModalProps = {
   isVisible: boolean;
   onClose: () => void;
+  onReload: () => void;
 };
 
 export const AppNewDefendantModal = ({
   isVisible,
   onClose,
+  onReload,
 }: AppNewDefendantModalProps) => {
-  const { createDefendant, value } = useCreateDefendant();
+  const {
+    createDefendant,
+    value,
+    loading: loadingDefendant,
+    error: errorDefendant,
+  } = useCreateDefendant();
   const [isCreatedDefendant, setIsCreatedDefendant] = useState(false);
   const [idDefendant, setIdDefendant] = useState<number>();
   const { getDefendantById, defendant } = useGetDefendantsById();
 
   const onCreateDefendant = async (params: createDefendantParams) => {
     const id = await createDefendant(params);
-    setIsCreatedDefendant(true);
+    if (!errorDefendant) {
+      AppToast().fire({
+        title: 'Success',
+        text: 'The defendant was created successfully',
+        icon: 'success',
+      });
+    }
+    onReload();
     if (id) setIdDefendant(id);
-    console.log(params);
-    console.log(id);
+    setIsCreatedDefendant(false);
   };
 
   useEffect(() => {
-    // console.log(createDefendant);
     setIdDefendant(value);
-    console.log(value);
   }, [value]);
   useEffect(() => {
     if (idDefendant) getDefendantById({ idPerson: idDefendant });
@@ -54,6 +67,7 @@ export const AppNewDefendantModal = ({
       <AppModalOverlay>
         <AppModalContent>
           <AppModalHeader>
+            <AppModalCloseButton />
             <div className="flex flex-row items-center justify-evenly gap-5 ">
               <span>New Defendant</span>
               <span>
@@ -136,6 +150,7 @@ export const AppNewDefendantModal = ({
                       onClose={onClose}
                       isCreatedDefendant={isCreatedDefendant}
                       idDefendant={idDefendant}
+                      loadingDefendant={loadingDefendant}
                     />
                   </Tab.Panel>
                   <Tab.Panel>

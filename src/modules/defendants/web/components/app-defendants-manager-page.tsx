@@ -12,16 +12,14 @@ import { AppDefendantsTable } from './tables/app-defendants-table';
 import { AppNewDefendantModal } from './modals/app-new-defendant-modal';
 import { useGetDefendants } from '../hooks/use-get-defendants';
 import { AppLoading } from 'presentation/components/AppLoading';
-// import { useGetDefendantsById } from '../hooks/use-get-defendants-by-id';
 export const AppDefendantsManagerPage = () => {
   const { defendants, getDefendants } = useGetDefendants();
-  // const { defendant, getDefendantById } = useGetDefendantsById();
+  const [toggleReload, setToggleReload] = useToggle(false);
   const [visibleNewDefendantModal, setVisibleNewDefendantModal] =
     useToggle(false);
   useEffect(() => {
     getDefendants({ completeName: '' });
-    // getDefendantById({ idPerson: 6 });
-  }, []);
+  }, [toggleReload]);
   return (
     <AppAuthorizationGuard
       roles={
@@ -33,6 +31,9 @@ export const AppDefendantsManagerPage = () => {
       <AppNewDefendantModal
         isVisible={visibleNewDefendantModal}
         onClose={() => setVisibleNewDefendantModal(false)}
+        onReload={() => {
+          setToggleReload(!toggleReload);
+        }}
       />
       <AppPageTransition>
         <div className="items-center mx-auto mb-5">
