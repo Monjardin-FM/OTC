@@ -44,17 +44,19 @@ export const AppEditAlarmModal = ({
 }: AppEditAlarmModalProps) => {
   const { updateAlarm } = useUpdateAlarm();
   const { responsiveDevices, getResponsiveDevices } = useGetResponsiveDevices();
-  const [selectedResponseDefault, setSelectedResponseDefault] =
-    useState<ResponseDevice>();
-  console.log(setSelectedResponseDefault);
   const { deviceType, getDeviceType } = useGetDeviceType();
   const { alarm, getAlarmById } = useGetAlarmById();
   const [selectedResponseDevicesValues, setSelectedResponseDevices] = useState<
     Omit<ResponseDevice, 'responseDevice'>[]
   >([]);
+  const [selectedResponseDefault, setSelectedResponseDefault] =
+    useState<ResponseDevice[]>();
   const [selectedDeviceTypeValues, setSelectedDeviceType] = useState<
     Omit<DeviceType, 'deviceType'>[]
   >([]);
+  // Uncomment when the response have the list devices
+  // const [selectedDeviceDefault, setSelectedDeviceDefault] =
+  //   useState<DeviceType>();
   const [status, setStatus] = useState(false);
 
   const onSubmitHandler = async (data: AlarmEditFormValues) => {
@@ -83,28 +85,7 @@ export const AppEditAlarmModal = ({
   const onSelectDeviceType = (selectedList: [], selectedItems: []) => {
     setSelectedDeviceType(selectedList);
   };
-  // function hacerMatch(
-  //   primerConjunto: Omit<ResponseDevice, 'responseDevice'>[],
-  //   segundoConjunto: ResponseDevice[],
-  // ): ResponseDevice[] {
-  //   return primerConjunto.map((obj) => {
-  //     const matchedObj = segundoConjunto.find(
-  //       (item) => item.idResponseDevice === obj.idResponseDevice,
-  //     );
-  //     if (matchedObj) {
-  //       return {
-  //         idResponseDevice: obj.idResponseDevice,
-  //         responseDevice: matchedObj.responseDevice,
-  //       };
-  //     } else {
-  //       // Manejar el caso donde no se encuentre un objeto coincidente
-  //       return {
-  //         idResponseDevice: obj.idResponseDevice,
-  //         responseDevice: 'Sin coincidencia',
-  //       };
-  //     }
-  //   });
-  // }
+
   useEffect(() => {
     if (idAlarm) getAlarmById({ idAlarmType: idAlarm });
     getResponsiveDevices();
@@ -112,13 +93,8 @@ export const AppEditAlarmModal = ({
   }, [idAlarm]);
   useEffect(() => {
     if (alarm) {
-      setSelectedResponseDevices(alarm.lResponseDevice);
-      // const selected = hacerMatch(
-      //   selectedResponseDevicesValues,
-      //   responsiveDevices ? responsiveDevices : [],
-      // );
-      // console.log(selected);
-      // if (selected) setSelectedResponseDefault(selected);
+      setSelectedResponseDefault(alarm.lResponseDevice);
+      // setSelectedDeviceDefault(alarm.);
       setStatus(alarm?.automatic);
     }
   }, [idAlarm, alarm]);
@@ -197,6 +173,7 @@ export const AppEditAlarmModal = ({
                       <AppFormField className="col-span-6">
                         <AppFormLabel>Assigned Devices</AppFormLabel>
                         <Multiselect
+                          // selectedValues={selectedDeviceDefault}
                           displayValue="deviceType"
                           showCheckbox={true}
                           options={deviceType}

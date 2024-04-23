@@ -10,6 +10,7 @@ import * as Icon from 'react-feather';
 import { AppButton } from 'presentation/components/AppButton';
 import { AppTooltip } from 'presentation/components/AppTooltip';
 import { AppBadge } from 'presentation/components/AppBadge';
+
 export type TrackingDetailsTableProps = {
   // onToggleStatus?: (index: Client) => void;
   // onUpdateClient: (data: Client) => void;
@@ -38,7 +39,7 @@ const DateTrackingDetailColumn = (params: RenderFnParams<PersonAlert>) => {
     <div className="flex items-center space-x-3">
       <AppBadge colorScheme="info">
         <div className="font-semibold text-sm text-primary-600 TrackingDetail-wider">
-          {params.record.timestamp}
+          params.record.timestamp
         </div>
       </AppBadge>
     </div>
@@ -49,13 +50,13 @@ const StatusTrackingDetailColumn = (params: RenderFnParams<PersonAlert>) => {
     <div className="flex items-center space-x-3">
       <div className="font-semibold TrackingDetail-wider">
         {params.record.seqMachineState ? (
+          <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
+            <Icon.AlertTriangle size={18} />
+          </div>
+        ) : (
           <div className="bg-success-300 rounded-lg p-2 text-success-600 group relative inline-block text-center">
             <Icon.Circle size={18} />
             <AppTooltip>Active</AppTooltip>
-          </div>
-        ) : (
-          <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
-            <Icon.AlertTriangle size={18} />
           </div>
         )}
       </div>

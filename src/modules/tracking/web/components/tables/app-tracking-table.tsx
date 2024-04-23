@@ -47,28 +47,103 @@ const NameTrackingColumn = (params: RenderFnParams<Tracking>) => {
     </div>
   );
 };
-// const SIDTrackingColumn = (params: RenderFnParams<Tracking>) => {
-//   return (
-//     <div className="flex items-center space-x-3">
-//       <AppBadge colorScheme="info">
-//         <div className="font-semibold text-sm text-primary-600 tracking-wider">
-//           {params.record.name}
-//         </div>
-//       </AppBadge>
-//     </div>
-//   );
-// };
-const BatteryTrackingColumn = (params: RenderFnParams<Tracking>) => {
+
+const CardioTrackingColumn = (params: RenderFnParams<Tracking>) => {
+  const cardio = params.record.alerts.find(
+    (alert) => alert.alarmName === 'Bracelet Low Cardio',
+  );
   return (
     <div className="flex items-center space-x-3">
       <div className="font-semibold tracking-wider">
-        {params.record.name ? (
+        {cardio && cardio.seqMachineState ? (
+          <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
+            <Icon.AlertTriangle size={18} />
+          </div>
+        ) : (
           <div className="bg-success-300 rounded-lg p-2 text-success-600">
             <Icon.Circle size={18} />
           </div>
-        ) : (
+        )}
+      </div>
+    </div>
+  );
+};
+const TamperingTrackingColumn = (params: RenderFnParams<Tracking>) => {
+  const tampering = params.record.alerts.find(
+    (alert) => alert.alarmName === 'Bracelet Tampering',
+  );
+  return (
+    <div className="flex items-center space-x-3">
+      <div className="font-semibold tracking-wider">
+        {tampering && tampering.seqMachineState ? (
           <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
             <Icon.AlertTriangle size={18} />
+          </div>
+        ) : (
+          <div className="bg-success-300 rounded-lg p-2 text-success-600">
+            <Icon.Circle size={18} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const BatteryTrackingColumn = (params: RenderFnParams<Tracking>) => {
+  const battery = params.record.alerts.find(
+    (alert) => alert.alarmName === 'Device Battery Low',
+  );
+  return (
+    <div className="flex items-center space-x-3">
+      <div className="font-semibold tracking-wider">
+        {battery && battery.seqMachineState ? (
+          <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
+            <Icon.AlertTriangle size={18} />
+          </div>
+        ) : (
+          <div className="bg-success-300 rounded-lg p-2 text-success-600">
+            <Icon.Circle size={18} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const ExclusionTrackingColumn = (params: RenderFnParams<Tracking>) => {
+  const exclusion = params.record.alerts.find(
+    (alert) => alert.alarmName === 'Exclusion Alarm',
+  );
+  return (
+    <div className="flex items-center space-x-3">
+      <div className="font-semibold tracking-wider">
+        {exclusion && exclusion.seqMachineState ? (
+          <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
+            <Icon.AlertTriangle size={18} />
+          </div>
+        ) : (
+          <div className="bg-success-300 rounded-lg p-2 text-success-600">
+            <Icon.Circle size={18} />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+const PerimeterTrackingColumn = (params: RenderFnParams<Tracking>) => {
+  const perimeter = params.record.alerts.find(
+    (alert) => alert.alarmName === 'Perimeter Alarm',
+  );
+  return (
+    <div className="flex items-center space-x-3">
+      <div className="font-semibold tracking-wider">
+        {perimeter && perimeter.seqMachineState ? (
+          <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
+            <Icon.AlertTriangle size={18} />
+          </div>
+        ) : (
+          <div className="bg-success-300 rounded-lg p-2 text-success-600">
+            <Icon.Circle size={18} />
           </div>
         )}
       </div>
@@ -83,47 +158,32 @@ const PositionTrackingColumn = (params: RenderFnParams<Tracking>) => {
     <div className="flex items-center space-x-3">
       <div className="font-semibold tracking-wider">
         {positionTimeout && positionTimeout.seqMachineState ? (
-          <div className="bg-success-300 rounded-lg p-2 text-success-600">
-            <Icon.Circle size={18} />
-          </div>
-        ) : (
           <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
             <Icon.AlertTriangle size={18} />
+          </div>
+        ) : (
+          <div className="bg-success-300 rounded-lg p-2 text-success-600">
+            <Icon.Circle size={18} />
           </div>
         )}
       </div>
     </div>
   );
 };
-
-const PerimeterTrackingColumn = (params: RenderFnParams<Tracking>) => {
-  return (
-    <div className="flex items-center space-x-3">
-      <div className="font-semibold tracking-wider">
-        {params.record.name ? (
-          <div className="bg-success-300 rounded-lg p-2 text-success-600">
-            <Icon.Circle size={18} />
-          </div>
-        ) : (
-          <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
-            <Icon.AlertTriangle size={18} />
-          </div>
-        )}
-      </div>
-    </div>
+const ProximityTrackingColumn = (params: RenderFnParams<Tracking>) => {
+  const proximity = params.record.alerts.find(
+    (alert) => alert.alarmName === 'Proximity Alert',
   );
-};
-const TamperingTrackingColumn = (params: RenderFnParams<Tracking>) => {
   return (
     <div className="flex items-center space-x-3">
       <div className="font-semibold tracking-wider">
-        {params.record.name ? (
-          <div className="bg-success-300 rounded-lg p-2 text-success-600">
-            <Icon.Circle size={18} />
-          </div>
-        ) : (
+        {proximity && proximity.seqMachineState ? (
           <div className="bg-danger-300 rounded-lg p-2 text-danger-600">
             <Icon.AlertTriangle size={18} />
+          </div>
+        ) : (
+          <div className="bg-success-300 rounded-lg p-2 text-success-600">
+            <Icon.Circle size={18} />
           </div>
         )}
       </div>
@@ -167,12 +227,18 @@ export const AppTrackingsTable = ({
       title: 'Name',
       render: NameTrackingColumn,
     },
-    // {
-    //   key: 'TrackingSID',
-    //   dataIndex: 'TrackingSID',
-    //   title: 'SID',
-    //   render: SIDTrackingColumn,
-    // },
+    {
+      key: 'TrackingCardio',
+      dataIndex: 'TrackingCardio',
+      title: 'Caradio',
+      render: CardioTrackingColumn,
+    },
+    {
+      key: 'TrackingTampering',
+      dataIndex: 'TrackingTampering',
+      title: 'Tampering',
+      render: TamperingTrackingColumn,
+    },
     {
       key: 'TrackingBattery',
       dataIndex: 'TrackingBattery',
@@ -180,10 +246,10 @@ export const AppTrackingsTable = ({
       render: BatteryTrackingColumn,
     },
     {
-      key: 'TrackingPosition',
-      dataIndex: 'TrackingPosition',
-      title: 'Position',
-      render: PositionTrackingColumn,
+      key: 'TrackingExclusion',
+      dataIndex: 'TrackingExclusion',
+      title: 'Exclusion',
+      render: ExclusionTrackingColumn,
     },
     {
       key: 'TrackingPerimeter',
@@ -192,10 +258,16 @@ export const AppTrackingsTable = ({
       render: PerimeterTrackingColumn,
     },
     {
-      key: 'TrackingTampering',
-      dataIndex: 'TrackingTampering',
-      title: 'Tampering',
-      render: TamperingTrackingColumn,
+      key: 'TrackingPosition',
+      dataIndex: 'TrackingPosition',
+      title: 'Position',
+      render: PositionTrackingColumn,
+    },
+    {
+      key: 'TrackingProximity',
+      dataIndex: 'TrackingProximity',
+      title: 'Proximity',
+      render: ProximityTrackingColumn,
     },
 
     {
