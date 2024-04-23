@@ -16,6 +16,9 @@ import { useGetUsers } from 'modules/management-users/web/hooks/use-get-users';
 import { UserManage } from 'modules/management-users/domain/entities/userManage';
 import { AppTrackingDetailsTable } from '../tables/app-tracking-detail-table';
 import { PersonAlert } from 'modules/tracking/domain/entities/tracking-detail';
+import { MapTracking } from '../maps/map-tracking';
+import { useFindHistoricPosition } from '../../hooks/use-find-hsitoric-position';
+import { AppButton } from 'presentation/components/AppButton';
 export type AppTrackingModalProps = {
   isVisible: boolean;
   onClose: () => void;
@@ -30,7 +33,15 @@ export const AppTrackingModal = ({
   const { getUsers, users } = useGetUsers();
   const [officer, setOfficer] = useState<UserManage[]>();
   const [alertPerson, setAlertPerson] = useState<PersonAlert[]>();
+  const { findHistoricPosition, historicPosition } = useFindHistoricPosition();
 
+  const onClick = () => {
+    findHistoricPosition({
+      dateInit: '2024-04-23T00:08:46.000Z',
+      dateFin: '2024-04-23T17:08:46.000Z',
+      idPerson: 1,
+    });
+  };
   useEffect(() => {
     if (personId) {
       getTrackingDetail({ personId: personId });
@@ -50,6 +61,7 @@ export const AppTrackingModal = ({
       if (officerFilter) setOfficer(officerFilter);
     }
   }, [users]);
+
   return (
     <AppModal isVisible={isVisible} onClose={onClose} size="full">
       <AppModalOverlay>
@@ -76,19 +88,11 @@ export const AppTrackingModal = ({
             <AppModalCloseButton />
           </AppModalHeader>
           <AppModalBody>
+            <div className="w-full  rounded-lg bg-gray-200">
+              <MapTracking historicPosition={historicPosition} />
+            </div>
+
             <div className="w-full flex flex-col items-center justify-center gap-5">
-              <div className="w-full flex flex-col items-center justify-center p-5 rounded-lg bg-gray-200">
-                {/* <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d187018.1427050245!2d-98.5066351750962!3d29.427286642312595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2smx!4v1713305015458!5m2!1ses-419!2smx"
-                  width="100%"
-                  height="500"
-                  //   style="border:0;"
-                  //   allowfullscreen=""
-                  loading="lazy"
-                  //   referrerpolicy="no-referrer-when-downgrade"
-                  title="Map Tracking"
-                ></iframe> */}
-              </div>
               <div className="flex flex-col items-start justify-start gap-3 border">
                 <span className="font-bold ml-3 text-primary-700">
                   Historic Position
@@ -108,14 +112,14 @@ export const AppTrackingModal = ({
                       placeholderText="To"
                     />
                   </AppFormField>
+                  <AppButton colorScheme="primary" onClick={onClick}>
+                    Search
+                  </AppButton>
                 </div>
               </div>
-              <div className="w-full">
-                <AppTrackingDetailsTable
-                  onEdit={() => {}}
-                  items={alertPerson}
-                />
-              </div>
+            </div>
+            <div className="w-full mt-5">
+              <AppTrackingDetailsTable onEdit={() => {}} items={alertPerson} />
             </div>
           </AppModalBody>
           <AppModalFooter></AppModalFooter>

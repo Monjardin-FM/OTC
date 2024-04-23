@@ -115,7 +115,7 @@ export const AppNewDefendantModal = ({
                     Victims
                   </Tab>
                   <Tab
-                    disabled={!isCreatedDefendant}
+                    // disabled={!isCreatedDefendant}
                     className={({ selected }) =>
                       classNames(
                         'w-full rounded-lg py-2.5 text-sm font-medium leading-5',

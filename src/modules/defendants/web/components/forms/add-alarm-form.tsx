@@ -80,21 +80,9 @@ export const AddAlarmForm = ({ onClose }: AddAlarmFormProps) => {
                 <span>Active</span>
               </div>
             </AppFormField>
-            <AppFormField className="col-span-8">
-              <AppFormLabel>GeoData</AppFormLabel>
-              <div className="w-full flex flex-col items-center justify-center p-5 rounded-lg bg-gray-200">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d187018.1427050245!2d-98.5066351750962!3d29.427286642312595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2smx!4v1713305015458!5m2!1ses-419!2smx"
-                  width="100%"
-                  height="500"
-                  //   style="border:0;"
-                  //   allowfullscreen=""
-                  loading="lazy"
-                  //   referrerpolicy="no-referrer-when-downgrade"
-                  title="Map Tracking"
-                ></iframe>
-              </div>
-            </AppFormField>
+            <div className="w-full rounded-lg bg-gray-200 col-span-12">
+              {/* <AppGeofence /> */}
+            </div>
             <div className="col-span-4 flex flex-col items-start justify-start border bg-white p-5 gap-5 rounded-lg">
               <span className="col-span-12 text-center font-bold text-primary-700 mb-10">
                 Exceptions
