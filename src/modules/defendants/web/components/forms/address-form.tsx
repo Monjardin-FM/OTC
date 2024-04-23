@@ -88,19 +88,23 @@ export const AddressForm = ({
     }
   }, [cities]);
   return (
-    <Formik
-      initialValues={{
-        idAddressType: 0,
-        zipCode: '',
-        streetAvenue: '',
-      }}
-      enableReinitialize
-      validationSchema={validationSchemaDefendant}
-      onSubmit={onSubmitHandler}
-    >
-      {({ handleSubmit, handleChange, values, errors }) => (
-        <form autoComplete="off" onSubmit={handleSubmit}>
-          <div className="col-span-12 grid grid-cols-12 gap-3 border border-gray-300 rounded-lg p-6 bg-gray-200">
+    <div className="col-span-12 grid grid-cols-12 gap-3 border border-gray-300 rounded-lg p-6 bg-gray-200">
+      <Formik
+        initialValues={{
+          idAddressType: 0,
+          zipCode: '',
+          streetAvenue: '',
+        }}
+        enableReinitialize
+        validationSchema={validationSchemaDefendant}
+        onSubmit={onSubmitHandler}
+      >
+        {({ handleSubmit, handleChange, values, errors }) => (
+          <form
+            autoComplete="off"
+            onSubmit={handleSubmit}
+            className="col-span-12 grid grid-cols-12 gap-4"
+          >
             <AppFormField className="col-span-3">
               <AppFormLabel>Type Address</AppFormLabel>
               <AppSelect
@@ -185,9 +189,9 @@ export const AddressForm = ({
                 Save
               </AppButton>
             </div>
-          </div>
-        </form>
-      )}
-    </Formik>
+          </form>
+        )}
+      </Formik>
+    </div>
   );
 };

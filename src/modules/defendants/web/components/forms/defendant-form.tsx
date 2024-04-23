@@ -334,44 +334,43 @@ export const DefendantForm = ({
           </form>
         )}
       </Formik>
-      {idDefendant ||
-        (true && (
-          <div className="col-span-12 flex flex-row items-center justify-start gap-3 mt-5">
-            <AppButton
-              colorScheme="primary"
-              leftIcon={<Icon.PlusCircle size={18} />}
-              onClick={() => {
-                setVisibleDeviceForm(true);
-                setVisibleAddressForm(false);
-                setVisiblePhoneForm(false);
-              }}
-            >
-              New Device
-            </AppButton>
-            <AppButton
-              colorScheme="primary"
-              leftIcon={<Icon.PlusCircle size={18} />}
-              onClick={() => {
-                setVisibleAddressForm(true);
-                setVisibleDeviceForm(false);
-                setVisiblePhoneForm(false);
-              }}
-            >
-              New Address
-            </AppButton>
-            <AppButton
-              colorScheme="primary"
-              leftIcon={<Icon.PlusCircle size={18} />}
-              onClick={() => {
-                setVisiblePhoneForm(true);
-                setVisibleDeviceForm(false);
-                setVisibleAddressForm(false);
-              }}
-            >
-              New Phone Number
-            </AppButton>
-          </div>
-        ))}
+      {idDefendant && (
+        <div className="col-span-12 flex flex-row items-center justify-start gap-3 mt-5">
+          <AppButton
+            colorScheme="primary"
+            leftIcon={<Icon.PlusCircle size={18} />}
+            onClick={() => {
+              setVisibleDeviceForm(true);
+              setVisibleAddressForm(false);
+              setVisiblePhoneForm(false);
+            }}
+          >
+            New Device
+          </AppButton>
+          <AppButton
+            colorScheme="primary"
+            leftIcon={<Icon.PlusCircle size={18} />}
+            onClick={() => {
+              setVisibleAddressForm(true);
+              setVisibleDeviceForm(false);
+              setVisiblePhoneForm(false);
+            }}
+          >
+            New Address
+          </AppButton>
+          <AppButton
+            colorScheme="primary"
+            leftIcon={<Icon.PlusCircle size={18} />}
+            onClick={() => {
+              setVisiblePhoneForm(true);
+              setVisibleDeviceForm(false);
+              setVisibleAddressForm(false);
+            }}
+          >
+            New Phone Number
+          </AppButton>
+        </div>
+      )}
       {visibleDeviceForm && (
         <div className="col-span-12">
           <DeviceForm

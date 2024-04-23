@@ -17,7 +17,7 @@ export const VictimForm = ({ idDefendant }: VictimFormProps) => {
       ref={parent}
       className="flex flex-col items-start justify-center gap-3"
     >
-      <div className="flex flex-col items-start justify-center">
+      <div className="flex flex-col items-start justify-center mt-3">
         <AppButton
           colorScheme="primary"
           leftIcon={<Icon.PlusCircle size={18} />}

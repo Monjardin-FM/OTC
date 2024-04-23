@@ -107,27 +107,6 @@ export const AddVictimForm = ({
       {({ handleSubmit, handleChange, values, errors }) => (
         <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="grid grid-cols-12 gap-y-4 gap-x-3 col-span-12 border border-gray-300 rounded-lg p-6 bg-gray-200">
-            <AppFormField className="col-span-1">
-              <AppFormLabel>Status</AppFormLabel>
-              <div className="flex flex-row items-center justify-start gap-3">
-                <span>Inactive</span>
-
-                {statusVictim ? (
-                  <AppToggleButton
-                    name="status"
-                    onChange={() => setStatusVictim(!statusVictim)}
-                    checked={statusVictim}
-                  ></AppToggleButton>
-                ) : (
-                  <AppToggleButton
-                    name="status"
-                    onChange={() => setStatusVictim(!statusVictim)}
-                    checked={statusVictim}
-                  ></AppToggleButton>
-                )}
-                <span>Active</span>
-              </div>
-            </AppFormField>
             <AppFormField className="col-span-4">
               <AppFormLabel>Name</AppFormLabel>
               <AppTextField
@@ -154,10 +133,31 @@ export const AddVictimForm = ({
                 </AppFormHelperText>
               )}
             </AppFormField>
+            <AppFormField className="col-span-3">
+              <AppFormLabel>Status</AppFormLabel>
+              <div className="flex flex-row items-center justify-start gap-3">
+                <span>Inactive</span>
+
+                {statusVictim ? (
+                  <AppToggleButton
+                    name="status"
+                    onChange={() => setStatusVictim(!statusVictim)}
+                    checked={statusVictim}
+                  ></AppToggleButton>
+                ) : (
+                  <AppToggleButton
+                    name="status"
+                    onChange={() => setStatusVictim(!statusVictim)}
+                    checked={statusVictim}
+                  ></AppToggleButton>
+                )}
+                <span>Active</span>
+              </div>
+            </AppFormField>
             <AppFormField className="col-span-4">
               <AppFormLabel>Email</AppFormLabel>
               <AppTextField
-                name="email"
+                name="eMail"
                 value={values.eMail}
                 onChange={handleChange}
               />
