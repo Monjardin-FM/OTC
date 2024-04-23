@@ -53,7 +53,7 @@ export const AppNewDefendantModal = ({
     }
     onReload();
     if (id) setIdDefendant(id);
-    setIsCreatedDefendant(false);
+    setIsCreatedDefendant(true);
   };
 
   useEffect(() => {
@@ -154,7 +154,7 @@ export const AppNewDefendantModal = ({
                     />
                   </Tab.Panel>
                   <Tab.Panel>
-                    <VictimForm />
+                    <VictimForm idDefendant={idDefendant} />
                   </Tab.Panel>
                   <Tab.Panel>
                     <AlarmForm />

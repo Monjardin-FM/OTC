@@ -382,7 +382,11 @@ export const DefendantForm = ({
       )}
       {visibleAddressForm && (
         <div className="col-span-12">
-          <AddressForm onClose={() => setVisibleAddressForm(false)} />
+          <AddressForm
+            onClose={() => setVisibleAddressForm(false)}
+            idDefendant={idDefendant}
+            onReload={() => {}}
+          />
         </div>
       )}
       {visiblePhoneForm && (

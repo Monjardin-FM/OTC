@@ -10,9 +10,7 @@ export const saveVictimService: VictimRepository['createVictim'] = async (
     headers: {
       Authorization: `Bearer ${token()}`,
     },
-    json: {
-      params,
-    },
+    json: params,
   });
   await verifyResponse({ response });
 };

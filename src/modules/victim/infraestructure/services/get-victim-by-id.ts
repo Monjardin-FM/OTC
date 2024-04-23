@@ -32,6 +32,9 @@ export const getVictimByIdService: VictimRepository['getVictimById'] = async (
     idStatus: data.idStatus,
     createdAt: data.created_at,
     idRole: data.idRole,
+    deviceId: data.deviceId,
+    idDeviceType: data.idDeviceType,
+    role: data.role,
   };
   return victims;
 };

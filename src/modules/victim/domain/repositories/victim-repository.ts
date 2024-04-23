@@ -19,6 +19,7 @@ export type VictimRepository = {
     password: string;
   }): Promise<void>;
   updateVictim(params: {
+    idPerson: number;
     completeName: string;
     name: string;
     lastName: string;

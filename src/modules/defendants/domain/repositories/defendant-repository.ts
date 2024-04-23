@@ -43,4 +43,11 @@ export type DefendantRepository = {
     idDevice: number;
     idDeviceType: number;
   }): Promise<void>;
+  assignAddress(params: {
+    idAddressType: number;
+    idCity: number;
+    zipCode: string;
+    streetAvenue: string;
+    idStatus: number;
+  }): Promise<void>;
 };

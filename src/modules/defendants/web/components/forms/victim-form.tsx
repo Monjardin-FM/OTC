@@ -5,7 +5,11 @@ import { useToggle } from 'react-use';
 import { AppVictimssTable } from 'modules/victim/web/components/app-victim-table';
 import { AddVictimForm } from './app-add-victim-form';
 import { useAutoAnimate } from '@formkit/auto-animate/react';
-export const VictimForm = () => {
+
+type VictimFormProps = {
+  idDefendant?: number;
+};
+export const VictimForm = ({ idDefendant }: VictimFormProps) => {
   const [visibleDeviceForm, setVisibleDeviceForm] = useToggle(false);
   const [parent] = useAutoAnimate();
   return (
@@ -24,7 +28,11 @@ export const VictimForm = () => {
       </div>
       {visibleDeviceForm && (
         <div className="w-full">
-          <AddVictimForm onClose={() => setVisibleDeviceForm(false)} />
+          <AddVictimForm
+            onClose={() => setVisibleDeviceForm(false)}
+            idDefendant={idDefendant}
+            onReload={() => {}}
+          />
         </div>
       )}
       <div className="w-full mt-5">

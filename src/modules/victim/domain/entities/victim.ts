@@ -12,4 +12,7 @@ export type Victim = {
   idStatus: number;
   createdAt: string;
   idRole: number;
+  role: number;
+  deviceId: number;
+  idDeviceType: number;
 };

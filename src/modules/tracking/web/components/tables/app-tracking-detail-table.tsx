@@ -39,7 +39,7 @@ const DateTrackingDetailColumn = (params: RenderFnParams<PersonAlert>) => {
     <div className="flex items-center space-x-3">
       <AppBadge colorScheme="info">
         <div className="font-semibold text-sm text-primary-600 TrackingDetail-wider">
-          params.record.timestamp
+          {params.record.timestamp}
         </div>
       </AppBadge>
     </div>
